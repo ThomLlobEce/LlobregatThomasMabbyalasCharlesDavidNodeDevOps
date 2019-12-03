@@ -8,7 +8,7 @@ List of current availables features :
 * 
 
 ## TRAVIS CI
-! [ Travis CI Badges ] (https://travis-ci.com/ThomLlobEce/LlobregatThomasMabbyalasCharlesDavidNodeDevOps.svg?branch=master)
+[![Build Status](https://travis-ci.com/ThomLlobEce/LlobregatThomasMabbyalasCharlesDavidNodeDevOps.svg?branch=master)](https://travis-ci.com/ThomLlobEce/LlobregatThomasMabbyalasCharlesDavidNodeDevOps)
 
 ## Support
 
