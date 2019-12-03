@@ -7,7 +7,7 @@ This is a student project illustrating the courses we had at ECE Paris engineeri
 List of current availables features :
 * 
 
-## TRAVIS CI
+## Continues Integration (CI) with Travis CI
 [![Build Status](https://travis-ci.com/ThomLlobEce/LlobregatThomasMabbyalasCharlesDavidNodeDevOps.svg?branch=master)](https://travis-ci.com/ThomLlobEce/LlobregatThomasMabbyalasCharlesDavidNodeDevOps)
 
 ## Support
