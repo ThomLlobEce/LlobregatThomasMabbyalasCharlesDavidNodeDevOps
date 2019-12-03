@@ -7,6 +7,9 @@ This is a student project illustrating the courses we had at ECE Paris engineeri
 List of current availables features :
 * 
 
+## TRAVIS CI
+https://travis-ci.com/ThomLlobEce/LlobregatThomasMabbyalasCharlesDavidNodeDevOps.svg?branch=master
+
 ## Support
 
 You can contact the following person for any question :
