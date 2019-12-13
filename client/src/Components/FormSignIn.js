@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link} from 'react-router-dom'
 
 export default class FormSignIn extends Component {
 
@@ -8,8 +8,8 @@ export default class FormSignIn extends Component {
         super(props)
 
         this.state = {
-            email: "w@gmail.com",
-            password: "azer",
+            email: "",
+            password: "",
             error: ["", ""],
             redirect: false
         }
@@ -60,6 +60,7 @@ export default class FormSignIn extends Component {
                     {this.state.error[1] !== "" ?  (<div style={{color: 'red'}}>{this.state.error[1]}<br /></div>) : (<br />)}
                     <br/>< br/>
                     <button onClick={this.signIn} style={styles.submitButton}>Envoyer</button>
+                    Pas de compte ? <Link to = "/" style={{color: "blue"}} >Creer en un tout de suite !</Link>
                 </div>
             </div>
         );
