@@ -47,7 +47,7 @@ List of current availables features :
 		- false if the user with provided email is signed in
 
 
-## You want to modify the project ?
+## You want to modify client-side ?
 In order for your changes to show when using `npm start` in `./` you will need to run before the following command in `./` client : `npm run build` and then in `./` use `npm start`.
   
 
