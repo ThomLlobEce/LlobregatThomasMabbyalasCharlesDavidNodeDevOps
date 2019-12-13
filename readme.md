@@ -21,7 +21,8 @@ List of current availables features :
     npm install
     npm start
     
-**To run the project again, you simply use** `npm start` **from** `./`
+**To run the project again, please use only ** `npm start` **from** `./`
+
 ## API DOCUMENTATION
 
 -  **/api/signIn : Try to sign a user in.**
