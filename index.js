@@ -25,12 +25,12 @@ app.post('/api/createUser', (req,res) => {
 app.get('/api/logIn', (req,res) => {
     let user = false
 
-    users.forEach( u => {
-        if(u.email === req.query.email && u.password === req.query.password){
-            user = u
+    for(let i = 0; i < users.length; i++){
+        if(users[i].email === req.query.email && users[i].password === req.query.password){
+            user = users[i]
             break
         }
-    })
+    }
 
     res.send(u)
 });
