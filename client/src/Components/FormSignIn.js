@@ -34,8 +34,14 @@ export default class FormSignIn extends Component {
                 '/api/signIn?email='+this.state.email+'&password='+this.state.password,
             )
             .then( (res) => {
-                this.props.addUser(res.data)
-                this.setState({redirect: true})
+                if(res.data !== false){
+                    this.props.addUser(res.data)
+                    this.setState({redirect: true})
+                }
+                else{
+                    this.state.error[0] = "Nous n'avons pas réussi à vous identifier avec les champs spécifiés"
+                    this.forceUpdate()
+                }
             })
         }else{
             console.log("Unable to sign up. Data is not correctly formatted.")

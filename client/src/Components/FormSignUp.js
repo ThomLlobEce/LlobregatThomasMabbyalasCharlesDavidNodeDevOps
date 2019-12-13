@@ -46,8 +46,15 @@ export default class FormSignUp extends Component {
                 this.state,
                 { headers: { 'Content-Type': 'application/json' } }
             )
-            .then( () => {
-                this.setState({redirect: true})
+            .then( (res) => {
+                console.log(res.data)
+                if(res.data === "User added"){
+                    this.setState({redirect: true})
+                }
+                else if(res.data === "Email already exists") {
+                    this.state.error[2] = "Cette addresse email est déjà utilisé par un autre compte"
+                    this.forceUpdate()
+                }
             })
             .catch( (error) => {
                 console.log("Could not create account : " + error)

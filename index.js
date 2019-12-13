@@ -15,12 +15,21 @@ app.use(bodyParser.json())
 
 // An api endpoint that returns a short list of items
 .post('/api/createUser', (req,res) => {
+    let exist = false
 
-    users.push({name: req.body.last_name, firstName: req.body.first_name, email: req.body.email, password: req.body.password})
-
-    console.log(users)
-
-    res.send("User correctly added")
+    for(let i = 0; i < users.length; i++){
+        if(users[i].email === req.body.email){
+            exist = true
+            break
+        }
+    }
+    if(exist){
+        res.send("Email already exists")
+    }
+    else{
+        users.push({name: req.body.last_name, firstName: req.body.first_name, email: req.body.email, password: req.body.password})
+        res.send("User added")
+    }
 })
 
 // An api endpoint that returns a short list of items
