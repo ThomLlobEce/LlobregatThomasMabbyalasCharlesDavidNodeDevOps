@@ -13,7 +13,6 @@ app.use(bodyParser.json())
 // Serve the static files from the React app
 .use(express.static(path.join(__dirname, 'client/build')))
 
-// An api endpoint that returns a short list of items
 .post('/api/createUser', (req,res) => {
     let exist = false
 
@@ -32,7 +31,6 @@ app.use(bodyParser.json())
     }
 })
 
-// An api endpoint that returns a short list of items
 .get('/api/signIn', (req,res) => {
     let user = false
 
