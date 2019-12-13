@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 
 export default class FormSignUp extends Component {
 
@@ -38,7 +39,11 @@ export default class FormSignUp extends Component {
         this.forceUpdate()
 
         if(this.state.error[0] === "" && this.state.error[1] === "" && this.state.error[2] === "" && this.state.error[3] === "" ){
-            console.log("ok")
+            await axios.post(
+                '/api/createUser',
+                this.state,
+                { headers: { 'Content-Type': 'application/json' } }
+            )
         }else{
             console.log("Unable to sign up. Data is not correctly formatted.")
         }

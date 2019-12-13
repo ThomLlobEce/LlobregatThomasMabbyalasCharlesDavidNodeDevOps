@@ -1,28 +1,35 @@
 import React, { Component } from 'react';
-import FormSignIn from './FormSignIn'
-import NavBar from './NavBar';
+import NavBar from './NavBar'
 
-
-class SignIn extends Component {
+class App extends Component {
 
     render()
     {
-        return(
-            <div>
-                <NavBar logged={false} />
-                <div style={styles.connexion}>
-                    <FormSignIn style={{zIndex: 2}} addUser={this.props.addUser}/>
+        if(this.props.user !== false){
+            return(
+                <div>
+                    <NavBar logged={true}/>
+                    <div style={styles.inscription}>
+                        
+                    </div>
                 </div>
-            </div>
-        )
+            );
+        }
+        else{
+            return(
+                <div>
+                    <NavBar logged={false}/>
+                </div>
+            );
+        }
+        
     }
 }
 
-export default SignIn;
-
+export default App;
 
 const styles = {
-    connexion: {
+    inscription: {
         width: '100%',
         height: '110vh',
         display: 'flex',
@@ -32,7 +39,7 @@ const styles = {
         backgroundRepeat: 'no-repeat',
         zIndex: 1
     },
-    connexion_button: {
+    inscription_button: {
         position: 'absolute',
         width: 300,
         height: 50,

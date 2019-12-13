@@ -2,8 +2,18 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home  from "./Components/Home";
 import SignIn  from "./Components/SignIn";
+import Account from './Components/Account'
 
 class App extends Component {
+
+    state = {
+        user: false
+    }
+
+    addUser = (user) => {
+        this.setState({user: user})
+        console.log("User logged : " + user)
+    }
 
     render()
     {
@@ -13,7 +23,8 @@ class App extends Component {
                 <Router>
                         <Switch>
                             <Route exact path="/" component={Home} />
-                            <Route exact path="/signin" component={SignIn} />
+                            <Route exact path='/signin' render={(props) => <SignIn {...props} addUser={this.addUser} />}/>
+                            <Route exact path='/dashboard' render={(props) => <Account {...props} user={this.state.user} />}/>
                         </Switch>
                     </Router>
                 </div>
