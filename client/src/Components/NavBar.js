@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from "react-router-dom";
 import logo from '../Images/logo.png'
 
 export default class NavBar extends Component {
@@ -7,15 +8,20 @@ export default class NavBar extends Component {
     {
         return(
             <div style={styles.nav}>
-                <img src={logo} height={"100%"} style={{marginLeft: 30}} alt={"Logo"}/>
+                <Link to = {"/"}>
+                    <img src={logo} height={"100%"} style={{marginLeft: 30}} alt={"Logo"}/>
+                </Link>
                 {
                     this.props.logged ? 
                     (
-                        <button style={styles.connexion_button}>Déconnexion</button>
-
+                        <Link to = {"/"}>
+                            <button style={styles.connexion_button}>Déconnexion</button>
+                        </Link>
                     ) :
                     (
-                        <button style={styles.connexion_button}>Connexion</button>
+                        <Link to ={"/signin"}>
+                           <button style={styles.connexion_button}>Connexion</button>
+                        </Link>
                     )
                 }   
             </div>
