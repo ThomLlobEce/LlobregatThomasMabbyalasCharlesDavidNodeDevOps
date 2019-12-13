@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Home  from "./Components/Home";
 import SignIn  from "./Components/SignIn";
 import Account from './Components/Account'
+import axios from 'axios'
 
 class App extends Component {
 
@@ -18,8 +19,15 @@ class App extends Component {
         this.setState({user: user})
     }
 
-    disconnect = () => {
-        this.setState({user: false})
+    disconnect = async () => {
+        await axios.get(
+            '/api/disconnect?email='+this.state.user.email
+        )
+        .then( (res) => {
+            if(res.data.message === true){
+                this.setState({user: false})
+            }
+        })
     }
 
     render()

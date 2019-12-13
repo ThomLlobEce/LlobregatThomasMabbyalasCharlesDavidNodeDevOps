@@ -34,9 +34,14 @@ export default class FormSignIn extends Component {
                 '/api/signIn?email='+this.state.email+'&password='+this.state.password,
             )
             .then( (res) => {
-                if(res.data !== false){
-                    this.props.addUser(res.data)
+                console.log(res.data.message)
+                if(res.data.message.name){
+                    this.props.addUser(res.data.message)
                     this.setState({redirect: true})
+                }
+                else if(res.data.message === "Already signed in"){
+                    this.state.error[0] = "Vous êtes déjà connecté"
+                    this.forceUpdate()
                 }
                 else{
                     this.state.error[0] = "Nous n'avons pas réussi à vous identifier avec les champs spécifiés"

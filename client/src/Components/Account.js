@@ -15,8 +15,7 @@ class App extends Component {
             '/api/isAuth?email='+this.props.user.email
         )
         .then( (res) => {
-            console.log(res.data)
-            if(res.data === true){
+            if(res.data.message === true){
                 this.setState({readyToRender: true, logged: true})
             }
             else{
