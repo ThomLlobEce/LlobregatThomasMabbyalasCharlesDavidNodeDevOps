@@ -21,7 +21,7 @@ List of current availables features :
     npm install
     npm start
     
-**To run the project again, please use only** `npm start` **from** `./`
+**To run the project again, please use only** `npm start` **from** `./` **and go to http://localhost:5000/**
 
 ## API DOCUMENTATION
 
