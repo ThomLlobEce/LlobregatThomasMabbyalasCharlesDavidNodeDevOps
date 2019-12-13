@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 
 export default class FormSignIn extends Component {
 
@@ -6,8 +7,8 @@ export default class FormSignIn extends Component {
         super(props)
 
         this.state = {
-            email: "",
-            password: "",
+            email: "w@gmail.com",
+            password: "azer",
             error: ["", ""]
         }
 
@@ -27,7 +28,12 @@ export default class FormSignIn extends Component {
         this.forceUpdate()
 
         if(this.state.error[0] === "" && this.state.error[1] === "" ){
-            console.log("ok")
+            await axios.get(
+                '/api/signIn?email='+this.state.email+'&password='+this.state.password,
+            )
+            .then( (res) => {
+                this.props.addUser(res.data)
+            })
         }else{
             console.log("Unable to sign up. Data is not correctly formatted.")
         }
