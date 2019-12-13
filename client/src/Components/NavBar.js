@@ -8,14 +8,14 @@ export default class NavBar extends Component {
     {
         return(
             <div style={styles.nav}>
-                <Link to = {"/"}>
+                <Link to = {"/dashboard"}>
                     <img src={logo} height={"100%"} style={{marginLeft: 30}} alt={"Logo"}/>
                 </Link>
                 {
                     this.props.logged ? 
                     (
                         <Link to = {"/"}>
-                            <button style={styles.connexion_button}>Déconnexion</button>
+                            <button onClick={() => {this.props.disconnect()}} style={styles.connexion_button}>Déconnexion</button>
                         </Link>
                     ) :
                     (

@@ -6,13 +6,20 @@ import Account from './Components/Account'
 
 class App extends Component {
 
-    state = {
-        user: false
+    constructor(props){
+        super(props)
+
+        this.state = {
+            user: false
+        }
     }
 
     addUser = (user) => {
         this.setState({user: user})
-        console.log("User logged : " + user)
+    }
+
+    disconnect = () => {
+        this.setState({user: false})
     }
 
     render()
@@ -24,7 +31,7 @@ class App extends Component {
                         <Switch>
                             <Route exact path="/" component={Home} />
                             <Route exact path='/signin' render={(props) => <SignIn {...props} addUser={this.addUser} />}/>
-                            <Route exact path='/dashboard' render={(props) => <Account {...props} user={this.state.user} />}/>
+                            <Route exact path='/dashboard' render={(props) => <Account {...props} user={this.state.user} disconnect={this.disconnect} />}/>
                         </Switch>
                     </Router>
                 </div>

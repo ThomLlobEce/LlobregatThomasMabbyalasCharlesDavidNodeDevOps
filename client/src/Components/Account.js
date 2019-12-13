@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import NavBar from './NavBar'
+import { Link } from 'react-router-dom';
 
 class App extends Component {
 
@@ -8,7 +9,7 @@ class App extends Component {
         if(this.props.user !== false){
             return(
                 <div>
-                    <NavBar logged={true}/>
+                    <NavBar logged={true} disconnect={this.props.disconnect} />
                     <div style={styles.inscription}>
                         
                     </div>
@@ -18,7 +19,10 @@ class App extends Component {
         else{
             return(
                 <div>
-                    <NavBar logged={false}/>
+                    <NavBar logged={false} />
+                    <div style={styles.inscription}>
+                        <h1 style={styles.back_button}>You are not logged in. <Link to = {'/signin'} style={{color: 'blue'}}>Please sign in</Link> or <Link to="/" style={{color: 'blue'}}>create an account</Link></h1>
+                    </div>
                 </div>
             );
         }
@@ -39,7 +43,7 @@ const styles = {
         backgroundRepeat: 'no-repeat',
         zIndex: 1
     },
-    inscription_button: {
+    back_button: {
         position: 'absolute',
         width: 300,
         height: 50,

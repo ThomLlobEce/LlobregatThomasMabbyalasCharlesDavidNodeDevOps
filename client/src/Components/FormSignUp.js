@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
+import { Redirect } from 'react-router-dom'
 
 export default class FormSignUp extends Component {
 
@@ -11,7 +12,8 @@ export default class FormSignUp extends Component {
             first_name: "",
             email: "",
             password: "",
-            error: ["", "", "", ""]
+            error: ["", "", "", ""],
+            redirect: false
         }
 
     }
@@ -44,6 +46,12 @@ export default class FormSignUp extends Component {
                 this.state,
                 { headers: { 'Content-Type': 'application/json' } }
             )
+            .then( () => {
+                this.setState({redirect: true})
+            })
+            .catch( (error) => {
+                console.log("Could not create account : " + error)
+            })
         }else{
             console.log("Unable to sign up. Data is not correctly formatted.")
         }
@@ -55,6 +63,7 @@ export default class FormSignUp extends Component {
         {
             return(
             <div>
+                { this.state.redirect ? <Redirect to='/signin'/> : null}
                 <div style={styles.formulaire}>
                     <button onClick={this.props.toggleSignUp} style={styles.cross}>X</button>
                     <label style={styles.legend}><span style={styles.number}>1</span> Identité</label>
