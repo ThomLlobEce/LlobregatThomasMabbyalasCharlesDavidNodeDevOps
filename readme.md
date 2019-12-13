@@ -27,24 +27,33 @@ List of current availables features :
 
 -  **/api/signIn : Try to sign a user in.**
 	- Method: get
-	- Needed params : email, password
+	- Required params : email, password
 	- Return :
-		- false if the user could not be signed in
-		- {name: , firstName: , email: , password: } if the user could be signed in
+		- { status: "success", message: user } if the user could be signed in (user is object with keys name, firstName, email & password)
+		- { status: "failed", message: "Already signed in" } if the user is already signed in
+		- { status: "failed", message: "error" } if any uncaughted error occured
 
 -  **/api/createUser : Try to create a user.**
 	- Method: post
-	- Needed params : last_name, first_name, email, password
+	- Required params : last_name, first_name, email, password
 	- Return :
-		- "Email already exists" if a user with same email already exist
-		- "User added" if the user has successfully been added
+		- { status: "failed", message: "Email already exists" } if an user with the same email address already exists
+		- { status: "failed", message: "Missing parameters" } if at least 1 parameter is missing
+		- { status: "success", message: "User added" } if the user has successfully been created
 
 -  **/api/isAuth : Check whether or not a specific user is signed in.**
 	- Method: get
-	- Needed params : email
+	- Required params : email
 	- Return :
-		- true if the user with provided email is signed in
-		- false if the user with provided email is signed in
+		- { status: "success", message: auth } if email provided matchs an authenticated user (auth is boolean)
+		- { status: "failed", message: auth } if email provided does not match any authenticated user (auth is boolean)
+
+-  **/api/disconnect : Check whether or not a specific user is signed in.**
+	- Method: get
+	- Required params : email
+	- Return :
+		- { status: "success", message: disconnect } if email provided matchs an authenticated user and that user has successfuly been disconnected (disconnect is boolean)
+		- { status: "failed", message: disconnect }  if email provided does not match any authenticated user (disconnect is boolean)
 
 
 ## You want to modify client-side ?
