@@ -1,43 +1,32 @@
 import React, { Component } from 'react';
 
-export default class FormSignUp extends Component {
+export default class FormSignIn extends Component {
 
     constructor(props){
         super(props)
 
         this.state = {
-            last_name: "",
-            first_name: "",
             email: "",
             password: "",
-            error: ["", "", "", ""]
+            error: ["", ""]
         }
 
     }
 
-    createUser = async () => {
+    signIn = async () => {
 
-        this.state.error = ["", "", "", ""]
+        this.state.error = ["", ""]
 
-        if(this.state.last_name === ""){
+        if(this.state.email === ""){
             this.state.error[0] = "Ce champ est vide."
         }
-        if(this.state.first_name === ""){
-            this.state.error[1] = "Ce champ est vide."
-        }
-        if(this.state.email === ""){
-            this.state.error[2] = "Ce champ est vide."
-        }
-        else if(!(this.state.email.includes("@gmail.com") || this.state.email.includes("@hotmail.fr") || this.state.email.includes("@sfr.fr"))){
-            this.state.error[2] = "Cette addresse e-mail n'est pas supporté"
-        }
         if(this.state.password === ""){
-            this.state.error[3] = "Ce champ est vide."
+            this.state.error[1] = "Ce champ est vide."
         }
 
         this.forceUpdate()
 
-        if(this.state.error[0] === "" && this.state.error[1] === "" && this.state.error[2] === "" && this.state.error[3] === "" ){
+        if(this.state.error[0] === "" && this.state.error[1] === "" ){
             console.log("ok")
         }else{
             console.log("Unable to sign up. Data is not correctly formatted.")
@@ -45,45 +34,24 @@ export default class FormSignUp extends Component {
 
     }
 
-    printFormSignUp = () => {
-        if (this.props.printFormSignUp === true)
-        {
-            return(
-            <div>
-                <div style={styles.formulaire}>
-                    <button onClick={this.props.toggleSignUp} style={styles.cross}>X</button>
-                    <label style={styles.legend}><span style={styles.number}>1</span> Identité</label>
-                    <br/>
-                    <br/>
-                    <input type="text" placeholder="Nom" style={styles.textArea} value={this.state.last_name} onChange = {(event) => {this.setState({last_name: event.target.value})}}/>
-                    {this.state.error[0] !== "" ?  (<div style={{color: 'red'}}>{this.state.error[0]}<br /></div>) : (<br />)}
-                    <br/>
-                    <input type="text" placeholder="Prénom" style={styles.textArea} value={this.state.first_name} onChange = {(event) => {this.setState({first_name: event.target.value})}}/>
-                    {this.state.error[1] !== "" ?  (<div style={{color: 'red'}}>{this.state.error[1]}<br /></div>) : (<br />)}
-                    <br/>
-                    <br/>
-                    <label style={styles.legend}><span style={styles.number}>2</span> Informations de compte</label>
-                    <br/>
-                    <br/>
-                    <input type="text" placeholder="Email" style={styles.textArea} value={this.state.email} onChange = {(event) => {this.setState({email: event.target.value})}}/>
-                    {this.state.error[2] !== "" ?  (<div style={{color: 'red'}}>{this.state.error[2]}<br /></div>) : (<br />)}
-                    <br/>
-                    <br/>
-                    <input type="password" placeholder="Mot de passe" style={styles.textArea} value={this.state.password} onChange = {(event) => {this.setState({password: event.target.value})}}/>
-                    {this.state.error[3] !== "" ?  (<div style={{color: 'red'}}>{this.state.error[3]}<br /></div>) : (<br />)}
-                    <br/>< br/>
-                    <button onClick={this.createUser} style={styles.submitButton}>Envoyer</button>
-                </div>
-            </div>)
-      }else{
-          return(<div></div>)
-      }
-    }
-
     render()
     {
         return(
-            <this.printFormSignUp/>
+            <div>
+                <div style={styles.formulaire}>
+                    <label style={styles.legend}><span style={styles.number}></span> Informations de connexion</label>
+                    <br/>
+                    <br/>
+                    <input type="text" placeholder="Email" style={styles.textArea} value={this.state.email} onChange = {(event) => {this.setState({email: event.target.value})}}/>
+                    {this.state.error[0] !== "" ?  (<div style={{color: 'red'}}>{this.state.error[0]}<br /></div>) : (<br />)}
+                    <br/>
+                    <br/>
+                    <input type="password" placeholder="Mot de passe" style={styles.textArea} value={this.state.password} onChange = {(event) => {this.setState({password: event.target.value})}}/>
+                    {this.state.error[1] !== "" ?  (<div style={{color: 'red'}}>{this.state.error[1]}<br /></div>) : (<br />)}
+                    <br/>< br/>
+                    <button onClick={this.signIn} style={styles.submitButton}>Envoyer</button>
+                </div>
+            </div>
         );
     }
 }

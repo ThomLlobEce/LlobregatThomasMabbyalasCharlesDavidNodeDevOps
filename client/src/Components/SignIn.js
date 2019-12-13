@@ -1,46 +1,28 @@
 import React, { Component } from 'react';
-import FormSignUp from './FormSignUp'
+import FormSignIn from './FormSignIn'
+import NavBar from './NavBar';
 
-import NavBar from './NavBar'
 
-class App extends Component {
-
-    constructor(props){
-        super(props)
-
-        this.state = {
-            printSignUp: false
-        }
-
-    }
-
-    toggleSignUp = () => {
-        this.setState({printSignUp: !this.state.printSignUp})
-    }
-
+class SignIn extends Component {
 
     render()
     {
         return(
             <div>
-                <NavBar logged={false}/>
-                <div style={styles.inscription}>
-                    <button
-                        style={styles.inscription_button}
-                        onClick={this.toggleSignUp}
-                        >M'inscrire
-                    </button>
-                    <FormSignUp style={{zIndex: 2}} printFormSignUp = {this.state.printSignUp} toggleSignUp = {this.toggleSignUp} />
+                <NavBar logged={false} />
+                <div style={styles.connexion}>
+                    <FormSignIn style={{zIndex: 2}} />
                 </div>
             </div>
-        );
+        )
     }
 }
 
-export default App;
+export default SignIn;
+
 
 const styles = {
-    inscription: {
+    connexion: {
         width: '100%',
         height: '110vh',
         display: 'flex',
@@ -50,7 +32,7 @@ const styles = {
         backgroundRepeat: 'no-repeat',
         zIndex: 1
     },
-    inscription_button: {
+    connexion_button: {
         position: 'absolute',
         width: 300,
         height: 50,

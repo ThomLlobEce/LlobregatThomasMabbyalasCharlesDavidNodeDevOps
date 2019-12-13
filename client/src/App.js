@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Home  from "./Components/Home";
+import SignIn  from "./Components/SignIn";
 
 class App extends Component {
 
@@ -8,7 +9,7 @@ class App extends Component {
         return(
             <div className="App" style={{margin: -10}}>
                 <div className="App-content">
-                    <Home />
+                    <SignIn />
                 </div>
                 
             </div>
