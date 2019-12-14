@@ -35,7 +35,7 @@ class App extends Component {
         return(
             <div className="App" style={{margin: -10}}>
                 <div className="App-content">
-                <Router>
+                    <Router>
                         <Switch>
                             <Route exact path="/" component={Home} />
                             <Route exact path='/signin' render={(props) => <SignIn {...props} addUser={this.addUser} />}/>
