@@ -35,6 +35,7 @@ class User {
     }
   }
 
+
 const users: User[] = [new User("a", "a", "a@gmail.com", "a")]
 const auths: string[] = []
 
