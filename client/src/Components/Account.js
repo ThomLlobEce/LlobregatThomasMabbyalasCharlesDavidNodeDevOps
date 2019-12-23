@@ -3,15 +3,17 @@ import NavBar from './NavBar'
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 
-class App extends Component {
+// Dashboard view
+class Account extends Component {
 
     state = {
-        readyToRender: false,
-        logged: false,
+        readyToRender: false, // false while fetching API data, true when ready to render
+        logged: false, // Wether there is a logged user
         value: 0,
-        timestamp: ""
+        message: ''
     }
 
+    // Trying to know if the client user is authed on server-side
     content = async () => {
         await axios.get(
             '/api/isAuth?email='+this.props.user.email
@@ -31,8 +33,13 @@ class App extends Component {
         })
     }
 
-    addMetrics = () => {
-
+    addMetrics = async () => {
+        await axios.get(
+            '/api/addMetrics?email='+this.props.user.email+'&value='+this.state.value+'&timestamp='+(new Date),
+        )
+        .then( (res) => {
+            this.setState({message: res.data.message})
+        })
     }
 
     render()
@@ -48,13 +55,12 @@ class App extends Component {
                                 <NavBar logged={true} disconnect={this.props.disconnect} />
 
                                 <div style={styles.formulaire}>
-                                    <label style={styles.legend}><span style={styles.number}>1</span> Identité</label>
+                                    <label style={styles.legend}><span style={styles.number}>1</span> Timestamp</label>
                                     <br/>
                                     <br/>
-                                    <input type="text" placeholder="timestamp" style={styles.textArea} value={this.state.timestamp} onChange = {(event) => {this.setState({timestamp: event.target.value})}}/>
                                     <input type="text" placeholder="value" style={styles.textArea} value={this.state.value} onChange = {(event) => {this.setState({value: event.target.value})}}/>
-                                    <button onClick={this.addMetrics} style={styles.submitButton}>Envoyer</button> 
-                                { /* addMetrics n'est pas encore codé */}
+                                    <button onClick={this.addMetrics} style={styles.submitButton}>Send</button> 
+                                    {this.state.message}
                                 </div>
                             </div>
                             : 
@@ -64,15 +70,15 @@ class App extends Component {
                                     <h1 style={styles.back_button}>You are not logged in. <Link to = {'/signin'} style={{color: 'blue'}}>Please sign in</Link> or <Link to="/" style={{color: 'blue'}}>create an account</Link></h1>
                                 </div>
                             </div>
-                        : 
-                        null
+                            : 
+                            null
                     }
                 </div>
             </div>)
     }
 }
 
-export default App;
+export default Account;
 
 const styles = {
 

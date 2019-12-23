@@ -1,16 +1,38 @@
-const express = require('express');
-const path = require('path');
-const app = express();
-const bodyParser = require('body-parser');
-
-const users = ["a","v@hotmail.fr"]
-const auths = ["v@hotmail.fr","a"]
-
-const port = process.env.PORT || 5000;
-
+"use strict";
+var express = require('express');
+var path = require('path');
+var app = express();
+var bodyParser = require('body-parser');
+// Defining a typical metrics
+var Metrics = /** @class */ (function () {
+    function Metrics(time, value) {
+        this.time = time;
+        this.value = value;
+    }
+    return Metrics;
+}());
+// Defining a typical user
+var User = /** @class */ (function () {
+    function User(name, firstName, email, password) {
+        var _this = this;
+        this.addMetrics = function (value, time) {
+            _this.metrics.push(new Metrics(time, value));
+        };
+        this.name = name;
+        this.firstName = firstName;
+        this.email = email;
+        this.password = password;
+        this.metrics = [];
+    }
+    return User;
+}());
+var users = [new User("a", "a", "a@gmail.com", "a")];
+var auths = [];
+var port = process.env.PORT || 5000;
 app.use(bodyParser.json());
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
+// API that can create an user if it has the required informations and add it into users array
 app.post('/api/createUser', function (req, res) {
     var exist = false;
     var missingParams = false;
@@ -38,14 +60,14 @@ app.post('/api/createUser', function (req, res) {
         });
     }
     else {
-        users.push({ name: req.body.last_name, firstName: req.body.first_name, email: req.body.email, password: req.body.password });
+        users.push(new User(req.body.last_name, req.body.first_name, req.body.email, req.body.password));
         res.json({
             status: "success",
             message: "User added"
         });
     }
 });
-
+// API that sign a user in if it exist and it is not already logged. Then add its email to auths array.
 app.get('/api/signIn', function (req, res) {
     var user;
     var exist = false;
@@ -55,7 +77,6 @@ app.get('/api/signIn', function (req, res) {
                 if (auths[j] = users[i].email) {
                     exist = true;
                     break;
-
                 }
             }
             if (!exist) {
@@ -75,6 +96,7 @@ app.get('/api/signIn', function (req, res) {
         res.json({ status: "failed", message: "error" });
     }
 });
+// API that check if a user is authenticated by looking for its email into the auths array.
 app.get('/api/isAuth', function (req, res) {
     var auth = false;
     for (var i = 0; i < auths.length; i++) {
@@ -89,6 +111,7 @@ app.get('/api/isAuth', function (req, res) {
         res.json({ status: "failed", message: auth });
     }
 });
+// API that disconnect a user based on the provided email. So it removes it from auths array.
 app.get('/api/disconnect', function (req, res) {
     var disconnect = false;
     for (var i = 0; i < auths.length; i++) {
@@ -102,6 +125,47 @@ app.get('/api/disconnect', function (req, res) {
     }
     else {
         res.json({ status: "failed", message: disconnect });
+    }
+});
+// API that add a metrics to a user based on provided email.
+app.get('/api/addMetrics', function (req, res) {
+    var missingParams = false;
+    var nonAuth = true;
+    if (!req.query.email || !req.query.value || !req.query.timestamp) {
+        missingParams = true;
+    }
+    else {
+        for (var i = 0; i < users.length; i++) {
+            if (users[i].email === req.query.email) {
+                for (var j = 0; j < auths.length; j++) {
+                    if (auths[j] === users[i].email) {
+                        nonAuth = false;
+                        break;
+                    }
+                }
+                if (!nonAuth) {
+                    users[i].addMetrics(req.query.value, req.query.timestamp);
+                }
+            }
+        }
+    }
+    if (missingParams) {
+        res.json({
+            status: "failed",
+            message: "Parameters are missing"
+        });
+    }
+    else if (nonAuth) {
+        res.json({
+            status: "failed",
+            message: "Email provided does not correspond to an authed user."
+        });
+    }
+    else {
+        res.json({
+            status: "success",
+            message: "Timestamp successfully added to user"
+        });
     }
 });
 // Handles any requests that don't match the ones above

@@ -16,35 +16,40 @@ export default class FormSignIn extends Component {
 
     }
 
+    // Trying to sign in with provided informations from form.
     signIn = async () => {
 
+        // Verifying fields
         this.state.error = ["", ""]
 
         if(this.state.email === ""){
-            this.state.error[0] = "Ce champ est vide."
+            this.state.error[0] = "This fields is empty."
         }
         if(this.state.password === ""){
-            this.state.error[1] = "Ce champ est vide."
+            this.state.error[1] = "This fields is empty."
         }
 
         this.forceUpdate()
 
         if(this.state.error[0] === "" && this.state.error[1] === "" ){
+            // Informations provided are well-formated
+            // Using signIn API
             await axios.get(
                 '/api/signIn?email='+this.state.email+'&password='+this.state.password,
             )
             .then( (res) => {
                 console.log(res.data.message)
                 if(res.data.message.name){
+                    // User signed in, updating client data and ordering a redirect
                     this.props.addUser(res.data.message)
                     this.setState({redirect: true})
                 }
                 else if(res.data.message === "Already signed in"){
-                    this.state.error[0] = "Vous êtes déjà connecté"
+                    this.state.error[0] = "You are alreayd signed in"
                     this.forceUpdate()
                 }
                 else{
-                    this.state.error[0] = "Nous n'avons pas réussi à vous identifier avec les champs spécifiés"
+                    this.state.error[0] = "Sorry, we can't logged you in with provided informations"
                     this.forceUpdate()
                 }
             })
@@ -58,9 +63,11 @@ export default class FormSignIn extends Component {
     {
         return(
             <div>
-                { this.state.redirect ? <Redirect to='/dashboard'/> : null}
+                { // if a redirect is required, not rendering this component. 
+                this.state.redirect ? <Redirect to='/dashboard'/> : null
+                }
                 <div style={styles.formulaire}>
-                    <label style={styles.legend}><span style={styles.number}></span> Informations de connexion</label>
+                    <label style={styles.legend}><span style={styles.number}></span> Informations </label>
                     <br/>
                     <br/>
                     <input type="text" placeholder="Email" style={styles.textArea} value={this.state.email} onChange = {(event) => {this.setState({email: event.target.value})}}/>
@@ -70,8 +77,8 @@ export default class FormSignIn extends Component {
                     <input type="password" placeholder="Mot de passe" style={styles.textArea} value={this.state.password} onChange = {(event) => {this.setState({password: event.target.value})}}/>
                     {this.state.error[1] !== "" ?  (<div style={{color: 'red'}}>{this.state.error[1]}<br /></div>) : (<br />)}
                     <br/>< br/>
-                    <button onClick={this.signIn} style={styles.submitButton}>Envoyer</button>
-                    Pas de compte ? <Link to = "/" style={{color: "blue"}} >Creer en un tout de suite !</Link>
+                    <button onClick={this.signIn} style={styles.submitButton}>Send</button>
+                    No account yet ? <Link to = "/" style={{color: "blue"}} >Sign up now !</Link>
                 </div>
             </div>
         );

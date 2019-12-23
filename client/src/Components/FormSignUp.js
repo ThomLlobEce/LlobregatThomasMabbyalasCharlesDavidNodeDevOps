@@ -18,8 +18,10 @@ export default class FormSignUp extends Component {
 
     }
 
+    // Trying to sign up with provided informations from form.
     createUser = async () => {
 
+        // Verifying fields
         this.state.error = ["", "", "", ""]
 
         if(this.state.last_name === ""){
@@ -41,6 +43,8 @@ export default class FormSignUp extends Component {
         this.forceUpdate()
 
         if(this.state.error[0] === "" && this.state.error[1] === "" && this.state.error[2] === "" && this.state.error[3] === "" ){
+            // Informations provided are well-formated
+            // Using signUp API
             await axios.post(
                 '/api/createUser',
                 this.state,
@@ -48,10 +52,11 @@ export default class FormSignUp extends Component {
             )
             .then( (res) => {
                 if(res.data.message === "User added"){
+                    // User signed up, ordering a redirect
                     this.setState({redirect: true})
                 }
                 else if(res.data.message === "Email already exists") {
-                    this.state.error[2] = "Cette addresse email est déjà utilisé par un autre compte"
+                    this.state.error[2] = "This email address is already in use."
                     this.forceUpdate()
                 }
             })
@@ -69,30 +74,32 @@ export default class FormSignUp extends Component {
         {
             return(
             <div>
-                { this.state.redirect ? <Redirect to='/signin'/> : null}
+                { // if a redirect is required, not rendering this component. 
+                this.state.redirect ? <Redirect to='/signin'/> : null
+                }
                 <div style={styles.formulaire}>
                     <button onClick={this.props.toggleSignUp} style={styles.cross}>X</button>
-                    <label style={styles.legend}><span style={styles.number}>1</span> Identité</label>
+                    <label style={styles.legend}><span style={styles.number}>1</span> Identity</label>
                     <br/>
                     <br/>
-                    <input type="text" placeholder="Nom" style={styles.textArea} value={this.state.last_name} onChange = {(event) => {this.setState({last_name: event.target.value})}}/>
+                    <input type="text" placeholder="Name" style={styles.textArea} value={this.state.last_name} onChange = {(event) => {this.setState({last_name: event.target.value})}}/>
                     {this.state.error[0] !== "" ?  (<div style={{color: 'red'}}>{this.state.error[0]}<br /></div>) : (<br />)}
                     <br/>
-                    <input type="text" placeholder="Prénom" style={styles.textArea} value={this.state.first_name} onChange = {(event) => {this.setState({first_name: event.target.value})}}/>
+                    <input type="text" placeholder="First name" style={styles.textArea} value={this.state.first_name} onChange = {(event) => {this.setState({first_name: event.target.value})}}/>
                     {this.state.error[1] !== "" ?  (<div style={{color: 'red'}}>{this.state.error[1]}<br /></div>) : (<br />)}
                     <br/>
                     <br/>
-                    <label style={styles.legend}><span style={styles.number}>2</span> Informations de compte</label>
+                    <label style={styles.legend}><span style={styles.number}>2</span> Account informations</label>
                     <br/>
                     <br/>
                     <input type="text" placeholder="Email" style={styles.textArea} value={this.state.email} onChange = {(event) => {this.setState({email: event.target.value})}}/>
                     {this.state.error[2] !== "" ?  (<div style={{color: 'red'}}>{this.state.error[2]}<br /></div>) : (<br />)}
                     <br/>
                     <br/>
-                    <input type="password" placeholder="Mot de passe" style={styles.textArea} value={this.state.password} onChange = {(event) => {this.setState({password: event.target.value})}}/>
+                    <input type="password" placeholder="Password" style={styles.textArea} value={this.state.password} onChange = {(event) => {this.setState({password: event.target.value})}}/>
                     {this.state.error[3] !== "" ?  (<div style={{color: 'red'}}>{this.state.error[3]}<br /></div>) : (<br />)}
                     <br/>< br/>
-                    <button onClick={this.createUser} style={styles.submitButton}>Envoyer</button>
+                    <button onClick={this.createUser} style={styles.submitButton}>Send</button>
                 </div>
             </div>)
       }else{
