@@ -3,13 +3,15 @@ import NavBar from './NavBar'
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 
-class App extends Component {
+// Dashboard view
+class Account extends Component {
 
     state = {
-        readyToRender: false,
-        logged: false
+        readyToRender: false, // false while fetching API data, true when ready to render
+        logged: false // Wether there is a logged user
     }
 
+    // Trying to know if the client user is authed on server-side
     content = async () => {
         await axios.get(
             '/api/isAuth?email='+this.props.user.email
@@ -37,27 +39,29 @@ class App extends Component {
                 <div style={styles.inscription}>
                     { 
                         this.state.readyToRender ?
-                        this.state.logged ? 
-                            <div>
-                                <NavBar logged={true} disconnect={this.props.disconnect} />
-                                <h1 style={styles.back_button}>You are logged in. </h1>
-                            </div>
-                            : 
-                            <div>
-                                <NavBar logged={false} />
-                                <div style={styles.inscription}>
-                                    <h1 style={styles.back_button}>You are not logged in. <Link to = {'/signin'} style={{color: 'blue'}}>Please sign in</Link> or <Link to="/" style={{color: 'blue'}}>create an account</Link></h1>
+                            this.state.logged ? 
+                                <div>
+                                    {/** Logged content */}
+                                    <NavBar logged={true} disconnect={this.props.disconnect} />
+                                    <h1 style={styles.back_button}>You are logged in. </h1>
                                 </div>
-                            </div>
-                        : 
-                        null
+                                : 
+                                <div>
+                                    <NavBar logged={false} />
+                                    <div style={styles.inscription}>
+                                        {/** Unlogged content */}
+                                        <h1 style={styles.back_button}>You are not logged in. <Link to = {'/signin'} style={{color: 'blue'}}>Please sign in</Link> or <Link to="/" style={{color: 'blue'}}>create an account</Link></h1>
+                                    </div>
+                                </div>
+                            : 
+                            null
                     }
                 </div>
             </div>)
     }
 }
 
-export default App;
+export default Account;
 
 const styles = {
     inscription: {

@@ -11,14 +11,16 @@ class App extends Component {
         super(props)
 
         this.state = {
-            user: false
+            user: false // Contains informations of a logged user
         }
     }
 
+    // Update user state
     addUser = (user) => {
         this.setState({user: user})
     }
 
+    // Update user state if API disconnection call succeed.
     disconnect = async () => {
         await axios.get(
             '/api/disconnect?email='+this.state.user.email
@@ -37,8 +39,11 @@ class App extends Component {
                 <div className="App-content">
                     <Router>
                         <Switch>
+                            {/** Default route : render home component */}
                             <Route exact path="/" component={Home} />
+                            {/** /signin route : render signIn component */}
                             <Route exact path='/signin' render={(props) => <SignIn {...props} addUser={this.addUser} />}/>
+                            {/** /dashboard route : render dashboard component */}
                             <Route exact path='/dashboard' render={(props) => <Account {...props} user={this.state.user} disconnect={this.disconnect} />}/>
                         </Switch>
                     </Router>
