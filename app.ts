@@ -18,11 +18,7 @@ class User {
   }
 
 const users: User[] = [{ name: "a", firstName: "a", email: "a@gmail.com", password: "a"}]
-<<<<<<< Updated upstream
-const auths: string[] = [{ name: "a", firstName: "a", email: "a@gmail.com", password: "a"}]
-=======
 const auths: string[] = []
->>>>>>> Stashed changes
 
 const port = process.env.PORT || 5000;
 

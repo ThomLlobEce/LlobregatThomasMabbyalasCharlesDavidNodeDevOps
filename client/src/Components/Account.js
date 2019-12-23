@@ -5,11 +5,18 @@ import axios from 'axios'
 
 class App extends Component {
 
+    constructor(props){
+        super(props)
+
+        this.timer()
+    }
+    
     state = {
         readyToRender: false,
         logged: false,
         value: 0,
-        timestamp: ""
+        time: new Date(),
+        message: ''
     }
 
     content = async () => {
@@ -32,7 +39,17 @@ class App extends Component {
     }
 
     addMetrics = () => {
+        await axios.get(
+            '/api/addMetrics?email='+this.state.email+'&value='+this.state.value+'&timestamp='+this.state.time,
+        )
+        .then( (res) => {
+            this.setState({message: res.data.message})
+        })
+    }
 
+    timer = () => {
+        this.setState({time: new Date})
+        setTimeout(this.timer(), 1000);
     }
 
     render()
@@ -48,13 +65,13 @@ class App extends Component {
                                 <NavBar logged={true} disconnect={this.props.disconnect} />
 
                                 <div style={styles.formulaire}>
-                                    <label style={styles.legend}><span style={styles.number}>1</span> Identité</label>
+                                    <label style={styles.legend}><span style={styles.number}>1</span> Timestamp</label>
                                     <br/>
                                     <br/>
-                                    <input type="text" placeholder="timestamp" style={styles.textArea} value={this.state.timestamp} onChange = {(event) => {this.setState({timestamp: event.target.value})}}/>
+                                    <input type="text" placeholder={this.state.time} style={styles.textArea} />
                                     <input type="text" placeholder="value" style={styles.textArea} value={this.state.value} onChange = {(event) => {this.setState({value: event.target.value})}}/>
-                                    <button onClick={this.addMetrics} style={styles.submitButton}>Envoyer</button> 
-                                { /* addMetrics n'est pas encore codé */}
+                                    <button onClick={this.addMetrics} style={styles.submitButton}>Send</button> 
+                                    {this.state.message}
                                 </div>
                             </div>
                             : 

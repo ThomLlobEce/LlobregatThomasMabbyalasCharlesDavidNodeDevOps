@@ -1,13 +1,20 @@
-const express = require('express');
-const path = require('path');
-const app = express();
-const bodyParser = require('body-parser');
-
-const users = ["a","v@hotmail.fr"]
-const auths = ["v@hotmail.fr","a"]
-
-const port = process.env.PORT || 5000;
-
+"use strict";
+var express = require('express');
+var path = require('path');
+var app = express();
+var bodyParser = require('body-parser');
+var User = /** @class */ (function () {
+    function User(name, firstName, email, password) {
+        this.name = name;
+        this.firstName = firstName;
+        this.email = email;
+        this.password = password;
+    }
+    return User;
+}());
+var users = [{ name: "a", firstName: "a", email: "a@gmail.com", password: "a" }];
+var auths = [];
+var port = process.env.PORT || 5000;
 app.use(bodyParser.json());
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
@@ -45,7 +52,6 @@ app.post('/api/createUser', function (req, res) {
         });
     }
 });
-
 app.get('/api/signIn', function (req, res) {
     var user;
     var exist = false;
@@ -55,7 +61,6 @@ app.get('/api/signIn', function (req, res) {
                 if (auths[j] = users[i].email) {
                     exist = true;
                     break;
-
                 }
             }
             if (!exist) {
