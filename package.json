@@ -4,17 +4,20 @@
   "description": "This is a student project illustrating the courses we had at ECE Paris engineering school in NodeJS & DevOps.",
   "main": "server.js",
   "dependencies": {
+    "@types/express": "^4.17.2",
     "body-parser": "^1.19.0",
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "typescript": "^3.7.4"
   },
   "devDependencies": {
     "mocha": "^6.2.2"
   },
   "scripts": {
     "start": "node app.js",
-    "test": "mocha --exit"
+    "test": "mocha --exit",
+    "tsc": "tsc"
   },
   "repository": {
     "type": "git",
