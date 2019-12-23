@@ -200,6 +200,53 @@ app.get('/api/addMetrics', (req: { query: { email: string; value: string; timest
 
 });
 
+// API that add a metrics to a user based on provided email.
+app.get('/api/getMetrics', (req: { query: { email: string; }; }, res: any) => {
+    let missingParams = false
+    let nonAuth = true
+    let response
+
+    if(!req.query.email){
+        missingParams = true
+    }
+    else{
+        for(let i = 0; i < users.length; i++){
+            if(users[i].email === req.query.email){
+                for(let j = 0; j < auths.length; j++){
+                    if(auths[j] === users[i].email){
+                        nonAuth = false
+                        break;
+                    }
+                }
+                if(!nonAuth){
+                    response = users[i].metrics
+                }
+            }
+        }
+    }
+
+    if(missingParams){
+        res.json({
+            status: "failed",
+            message: "Parameters are missing"
+        })
+    }
+    else if(nonAuth){
+        res.json({
+            status: "failed",
+            message: "Email provided does not correspond to an authed user."
+        })
+    }
+    else{
+        res.json({
+            status: "success",
+            message: response
+        })
+    }
+
+
+});
+
 // Handles any requests that don't match the ones above
 app.get('*', (req: any,res: { sendFile: (arg0: any) => void; }) =>{
     res.sendFile(path.join(__dirname+'/client/build/index.html'));
