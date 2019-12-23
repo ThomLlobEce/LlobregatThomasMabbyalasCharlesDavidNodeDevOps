@@ -1,10 +1,10 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
 
-const users = []
-const auths = []
+const users = ["vic@hotmail.fr"]
+const auths = ["a"]
 
 const port = process.env.PORT || 5000;
 
