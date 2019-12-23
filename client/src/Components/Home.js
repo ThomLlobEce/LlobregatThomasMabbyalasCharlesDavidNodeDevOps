@@ -9,11 +9,12 @@ class App extends Component {
         super(props)
 
         this.state = {
-            printSignUp: false
+            printSignUp: false // Whether sign up form should be print or not
         }
 
     }
 
+    // Close or open the sign up form
     toggleSignUp = () => {
         this.setState({printSignUp: !this.state.printSignUp})
     }
@@ -28,7 +29,7 @@ class App extends Component {
                     <button
                         style={styles.inscription_button}
                         onClick={this.toggleSignUp}
-                        >M'inscrire
+                        >Sign up
                     </button>
                     <FormSignUp style={{zIndex: 2}} printFormSignUp = {this.state.printSignUp} toggleSignUp = {this.toggleSignUp} />
                 </div>

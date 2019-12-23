@@ -3,6 +3,7 @@ const path = require('path');
 const app = express();
 const bodyParser = require('body-parser')
 
+// Defining a typical user
 class User {
     name: string
     firstName: string
@@ -17,7 +18,9 @@ class User {
     }
   }
 
+// Array containing registered users
 const users: User[] = []
+// Array containing emails of current authenticated users
 const auths: string[] = []
 
 const port = process.env.PORT || 5000;
@@ -27,6 +30,7 @@ app.use(bodyParser.json());
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
 
+// API that can create an user if it has the required informations and add it into users array
 app.post('/api/createUser', (req: { body: { email: string; first_name: string; last_name: string; password: string; }; },res: { json: (arg0: { status: string; message: string; }) => void; }) => {
     let exist = false
     let missingParams = false;
@@ -64,6 +68,7 @@ app.post('/api/createUser', (req: { body: { email: string; first_name: string; l
     }
 });
 
+// API that sign a user in if it exist and it is not already logged. Then add its email to auths array.
 app.get('/api/signIn', (req: { query: { email: string; password: string; }; },res: { json: (arg0: { status: string; message: string | User ; }) => void; }) => {
     let user
     let exist = false
@@ -95,6 +100,7 @@ app.get('/api/signIn', (req: { query: { email: string; password: string; }; },re
     }
 });
 
+// API that check if a user is authenticated by looking for its email into the auths array.
 app.get('/api/isAuth', (req: { query: { email: string; }; }, res: { json: (arg0: { status: string; message: boolean; }) => void; }) => {
     let auth = false
 
@@ -113,6 +119,7 @@ app.get('/api/isAuth', (req: { query: { email: string; }; }, res: { json: (arg0:
 
 });
 
+// API that disconnect a user based on the provided email. So it removes it from auths array.
 app.get('/api/disconnect', (req: { query: { email: string; }; }, res: { json: (arg0: { status: string; message: boolean; }) => void; }) => {
     let disconnect = false
 

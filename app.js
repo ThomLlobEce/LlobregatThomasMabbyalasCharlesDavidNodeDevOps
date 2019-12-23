@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var app = express();
 var bodyParser = require('body-parser');
+// Defining a typical user
 var User = /** @class */ (function () {
     function User(name, firstName, email, password) {
         this.name = name;
@@ -12,12 +13,15 @@ var User = /** @class */ (function () {
     }
     return User;
 }());
+// Array containing registered users
 var users = [];
+// Array containing emails of current authenticated users
 var auths = [];
 var port = process.env.PORT || 5000;
 app.use(bodyParser.json());
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
+// API that can create an user if it has the required informations and add it into users array
 app.post('/api/createUser', function (req, res) {
     var exist = false;
     var missingParams = false;
@@ -52,6 +56,7 @@ app.post('/api/createUser', function (req, res) {
         });
     }
 });
+// API that sign a user in if it exist and it is not already logged. Then add its email to auths array.
 app.get('/api/signIn', function (req, res) {
     var user;
     var exist = false;
@@ -80,6 +85,7 @@ app.get('/api/signIn', function (req, res) {
         res.json({ status: "failed", message: "error" });
     }
 });
+// API that check if a user is authenticated by looking for its email into the auths array.
 app.get('/api/isAuth', function (req, res) {
     var auth = false;
     for (var i = 0; i < auths.length; i++) {
@@ -94,6 +100,7 @@ app.get('/api/isAuth', function (req, res) {
         res.json({ status: "failed", message: auth });
     }
 });
+// API that disconnect a user based on the provided email. So it removes it from auths array.
 app.get('/api/disconnect', function (req, res) {
     var disconnect = false;
     for (var i = 0; i < auths.length; i++) {
