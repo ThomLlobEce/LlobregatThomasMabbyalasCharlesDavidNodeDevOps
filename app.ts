@@ -17,8 +17,8 @@ class User {
     }
   }
 
-const users: User[] = []
-const auths: string[] = []
+const users: User[] = [{ name: "a", firstName: "a", email: "a@gmail.com", password: "a"}]
+const auths: string[] = [{ name: "a", firstName: "a", email: "a@gmail.com", password: "a"}]
 
 const port = process.env.PORT || 5000;
 
@@ -65,7 +65,7 @@ app.post('/api/createUser', (req: { body: { email: string; first_name: string; l
 });
 
 app.get('/api/signIn', (req: { query: { email: string; password: string; }; },res: { json: (arg0: { status: string; message: string | User ; }) => void; }) => {
-    let user =  new User("", "", "", "")
+    let user
     let exist = false
 
     for(let i = 0; i < users.length; i++){
