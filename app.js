@@ -3,13 +3,26 @@ var express = require('express');
 var path = require('path');
 var app = express();
 var bodyParser = require('body-parser');
+// Defining a typical metrics
+var Metrics = /** @class */ (function () {
+    function Metrics(time, value) {
+        this.time = time;
+        this.value = value;
+    }
+    return Metrics;
+}());
 // Defining a typical user
 var User = /** @class */ (function () {
     function User(name, firstName, email, password) {
+        var _this = this;
+        this.addMetrics = function (value, time) {
+            _this.metrics.push(new Metrics(time, value));
+        };
         this.name = name;
         this.firstName = firstName;
         this.email = email;
         this.password = password;
+        this.metrics = [];
     }
     return User;
 }());
@@ -49,7 +62,7 @@ app.post('/api/createUser', function (req, res) {
         });
     }
     else {
-        users.push({ name: req.body.last_name, firstName: req.body.first_name, email: req.body.email, password: req.body.password });
+        users.push(new User(req.body.last_name, req.body.first_name, req.body.email, req.body.password));
         res.json({
             status: "success",
             message: "User added"
@@ -114,6 +127,46 @@ app.get('/api/disconnect', function (req, res) {
     }
     else {
         res.json({ status: "failed", message: disconnect });
+    }
+});
+app.get('/api/addMetrics', function (req, res) {
+    var missingParams = false;
+    var nonAuth = true;
+    if (!req.body.email || !req.body.value || !req.body.timestamp) {
+        missingParams = true;
+    }
+    else {
+        for (var i = 0; i < users.length; i++) {
+            if (users[i].email === req.body.email) {
+                for (var j = 0; j < auths.length; j++) {
+                    if (auths[j] == users[i].email) {
+                        nonAuth = false;
+                        break;
+                    }
+                }
+                if (!nonAuth) {
+                    users[i].addMetrics(req.body.value, req.body.timestamp);
+                }
+            }
+        }
+    }
+    if (missingParams) {
+        res.json({
+            status: "failed",
+            message: "Parameters are missing"
+        });
+    }
+    else if (nonAuth) {
+        res.json({
+            status: "failed",
+            message: "Email provided does not correspond to an authed user."
+        });
+    }
+    else {
+        res.json({
+            status: "success",
+            message: "Timestamp successfully added to user"
+        });
     }
 });
 // Handles any requests that don't match the ones above
