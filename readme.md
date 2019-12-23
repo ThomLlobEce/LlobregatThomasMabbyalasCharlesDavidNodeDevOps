@@ -61,7 +61,7 @@ In order for your changes to show when using `npm start` in `./` you will need t
   
 
 ## Continues Integration (CI) with Travis CI
-[![Build Status](https://travis-ci.com/ThomLlobEce/LlobregatThomasMabbyalasCharlesDavidNodeDevOps.svg?branch=master)](https://travis-ci.com/ThomLlobEce/LlobregatThomasMabbyalasCharlesDavidNodeDevOps)
+[![Build Status](https://travis-ci.com/ThomLlobEce/LlobregatThomasMabbyalasCharlesDavidGregoireVictorNodeDevOps.svg?branch=master)](https://travis-ci.com/ThomLlobEce/LlobregatThomasMabbyalasCharlesDavidGregoireVictorNodeDevOps)
 
 ## Support
 
