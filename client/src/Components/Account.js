@@ -44,13 +44,12 @@ class App extends Component {
                                 <NavBar logged={true} disconnect={this.props.disconnect} />
                                 <h1 style={styles.back_button}>You are logged in. </h1>
                                     <div style={styles.formulaire}>
-                                        <button onClick={this.props.toggleSignUp} style={styles.cross}>X</button>
-                                        <label style={styles.legend}><span style={styles.number}>1</span> Identité</label>
                                         <br/>
-                                        <br/>
-                                        <input type="text" placeholder="timestamp" style={styles.textArea} value={this.state.timestamp} onChange = {(event) => {this.setState({timestamp: event.target.value})}}/>
+                                       {/* <input type="text" placeholder="timestamp" style={styles.textArea} value={this.state.timestamp} onChange = {(event) => {this.setState({timestamp: event.target.value})}}/>
                                         <input type="text" placeholder="value" style={styles.textArea} value={this.state.value} onChange = {(event) => {this.setState({value: event.target.value})}}/>
                                         <button onClick={this.addMetrics} style={styles.submitButton}>Envoyer</button> 
+                                        */}
+                                        <input type="text" placeholder="timestamp" style={styles.textArea}>
                                     { /* addMetrics n'est pas encore codé */}
                                     </div>
                                 </div>
@@ -73,6 +72,7 @@ class App extends Component {
 export default App;
 
 const styles = {
+
     inscription: {
         width: '100%',
         height: '110vh',
@@ -96,5 +96,81 @@ const styles = {
 	    font: 'bold 13px Arial',
         color: '#fff',
         transform: "translate(-50%, -50%)"   
+    }
+
+        formulaire: {
+        width: 400,
+        left: '50%',
+        top: '50%',
+        position: 'absolute',
+        zIndex: 2,
+        padding: 20,
+        backgroundColor: '#f4f7f8',
+        margin: 10,
+        borderRadius: 8,
+        fontFamily: "Georgia",
+        transform: "translate(-50%, -50%)"
+    },
+
+    number:{
+        background: '#1abc9c',
+        color: '#FFF',
+        height: 30,
+        width: 30,
+        display: 'inline-block',
+        fontSize: 18,
+        lineHeight: 1.2,
+        textAlign: 'center',
+        textShadow: 'rgba(255,255,255,0.2)',
+        borderRadius: 15,
+    },
+
+    legend:{
+        fontSize: 20,
+        color: '#1abc9c',
+    },
+
+    textArea: {
+        fontFamily: "Georgia",
+        background: "rgba(255,255,255,.1)",
+        border: "none",
+        borderRadius: 4,
+        fontSize: 12,
+        margin: 0,
+        outline: 0,
+        padding: 10,
+        width: '100%',
+        boxSizing: 'border-box',
+        WebkitBoxSizing: 'border-box',
+        MozBoxSizing: 'border-box',
+        backgroundColor: '#e8eeef',
+        color: '#8a97a0',
+        WebkitBoxShadow: "rgba(0,0,0,0.03)",
+        boxShadow: "rgba(0,0,0,0.03)",
+        marginBottom: 5
+    },
+
+    submitButton: {
+        position: 'relative',
+        display: 'block',
+        padding: '19px 39px 18px 39px',
+        color: '#FFF',
+        margin: 'auto',
+        background: '#1abc9c',
+        fontSize: 18,
+        textAlign: 'center',
+        fontStyle: 'normal',
+        width: '100%',
+        border: '1px solid #16a085',
+        borderWidth: '1px 1px 3px',
+        marginBottom: 10
+    },
+
+    cross: {
+        position: 'absolute',
+        top: 5,
+        right: 5,
+        border: "none",
+        backgroundColor: '#f4f7f8',
     }
 }
