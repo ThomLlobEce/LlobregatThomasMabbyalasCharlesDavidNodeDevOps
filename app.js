@@ -13,9 +13,7 @@ var User = /** @class */ (function () {
     }
     return User;
 }());
-// Array containing registered users
-var users = [];
-// Array containing emails of current authenticated users
+var users = [{ name: "a", firstName: "a", email: "a@gmail.com", password: "a" }];
 var auths = [];
 var port = process.env.PORT || 5000;
 app.use(bodyParser.json());

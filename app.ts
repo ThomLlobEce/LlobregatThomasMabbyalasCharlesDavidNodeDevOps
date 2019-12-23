@@ -19,7 +19,7 @@ class User {
   }
 
 const users: User[] = [{ name: "a", firstName: "a", email: "a@gmail.com", password: "a"}]
-const auths: String[] = ["a@gmail.com"]
+const auths: String[] = []
 
 const port = process.env.PORT || 5000;
 
