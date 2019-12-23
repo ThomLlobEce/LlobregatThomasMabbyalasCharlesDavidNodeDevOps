@@ -53,7 +53,7 @@ app.post('/api/createUser', function (req, res) {
     }
 });
 app.get('/api/signIn', function (req, res) {
-    var user = new User("", "", "", "");
+    var user;
     var exist = false;
     for (var i = 0; i < users.length; i++) {
         if (users[i].email === req.query.email && users[i].password === req.query.password) {
