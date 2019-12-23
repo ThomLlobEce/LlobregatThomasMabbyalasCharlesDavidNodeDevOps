@@ -26,7 +26,7 @@ var User = /** @class */ (function () {
     }
     return User;
 }());
-var users = [{ name: "a", firstName: "a", email: "a@gmail.com", password: "a" }];
+var users = [new User("a", "a", "a@gmail.com", "a")];
 var auths = [];
 var port = process.env.PORT || 5000;
 app.use(bodyParser.json());
@@ -127,23 +127,24 @@ app.get('/api/disconnect', function (req, res) {
         res.json({ status: "failed", message: disconnect });
     }
 });
+// API that add a metrics to a user based on provided email.
 app.get('/api/addMetrics', function (req, res) {
     var missingParams = false;
     var nonAuth = true;
-    if (!req.body.email || !req.body.value || !req.body.timestamp) {
+    if (!req.query.email || !req.query.value || !req.query.timestamp) {
         missingParams = true;
     }
     else {
         for (var i = 0; i < users.length; i++) {
-            if (users[i].email === req.body.email) {
+            if (users[i].email === req.query.email) {
                 for (var j = 0; j < auths.length; j++) {
-                    if (auths[j] == users[i].email) {
+                    if (auths[j] === users[i].email) {
                         nonAuth = false;
                         break;
                     }
                 }
                 if (!nonAuth) {
-                    users[i].addMetrics(req.body.value, req.body.timestamp);
+                    users[i].addMetrics(req.query.value, req.query.timestamp);
                 }
             }
         }

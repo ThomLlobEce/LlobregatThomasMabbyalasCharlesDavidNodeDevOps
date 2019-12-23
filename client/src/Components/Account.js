@@ -6,17 +6,10 @@ import axios from 'axios'
 // Dashboard view
 class Account extends Component {
 
-    constructor(props){
-        super(props)
-
-        this.timer()
-    }
-    
     state = {
         readyToRender: false, // false while fetching API data, true when ready to render
         logged: false, // Wether there is a logged user
         value: 0,
-        time: new Date(),
         message: ''
     }
 
@@ -40,18 +33,13 @@ class Account extends Component {
         })
     }
 
-    addMetrics = () => {
+    addMetrics = async () => {
         await axios.get(
-            '/api/addMetrics?email='+this.state.email+'&value='+this.state.value+'&timestamp='+this.state.time,
+            '/api/addMetrics?email='+this.props.user.email+'&value='+this.state.value+'&timestamp='+(new Date),
         )
         .then( (res) => {
             this.setState({message: res.data.message})
         })
-    }
-
-    timer = () => {
-        this.setState({time: new Date})
-        setTimeout(this.timer(), 1000);
     }
 
     render()
@@ -70,7 +58,6 @@ class Account extends Component {
                                     <label style={styles.legend}><span style={styles.number}>1</span> Timestamp</label>
                                     <br/>
                                     <br/>
-                                    <input type="text" placeholder={this.state.time} style={styles.textArea} />
                                     <input type="text" placeholder="value" style={styles.textArea} value={this.state.value} onChange = {(event) => {this.setState({value: event.target.value})}}/>
                                     <button onClick={this.addMetrics} style={styles.submitButton}>Send</button> 
                                     {this.state.message}
@@ -82,6 +69,7 @@ class Account extends Component {
                                 <div style={styles.inscription}>
                                     <h1 style={styles.back_button}>You are not logged in. <Link to = {'/signin'} style={{color: 'blue'}}>Please sign in</Link> or <Link to="/" style={{color: 'blue'}}>create an account</Link></h1>
                                 </div>
+                            </div>
                             : 
                             null
                     }

@@ -35,7 +35,7 @@ class User {
     }
   }
 
-const users: User[] = [{ name: "a", firstName: "a", email: "a@gmail.com", password: "a"}]
+const users: User[] = [new User("a", "a", "a@gmail.com", "a")]
 const auths: string[] = []
 
 const port = process.env.PORT || 5000;
@@ -154,24 +154,25 @@ app.get('/api/disconnect', (req: { query: { email: string; }; }, res: { json: (a
 
 });
 
-app.get('/api/addMetrics', (req: { body: { email: string; value: string; timestamp: string; }; }, res: any) => {
+// API that add a metrics to a user based on provided email.
+app.get('/api/addMetrics', (req: { query: { email: string; value: string; timestamp: string; }; }, res: any) => {
     let missingParams = false
     let nonAuth = true
 
-    if(!req.body.email || !req.body.value || !req.body.timestamp){
+    if(!req.query.email || !req.query.value || !req.query.timestamp){
         missingParams = true
     }
     else{
         for(let i = 0; i < users.length; i++){
-            if(users[i].email === req.body.email){
+            if(users[i].email === req.query.email){
                 for(let j = 0; j < auths.length; j++){
-                    if(auths[j] == users[i].email){
+                    if(auths[j] === users[i].email){
                         nonAuth = false
                         break;
                     }
                 }
                 if(!nonAuth){
-                    users[i].addMetrics(req.body.value, req.body.timestamp)
+                    users[i].addMetrics(req.query.value, req.query.timestamp)
                 }
             }
         }
