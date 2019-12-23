@@ -10,7 +10,8 @@ class Account extends Component {
         readyToRender: false, // false while fetching API data, true when ready to render
         logged: false, // Wether there is a logged user
         value: 0,
-        message: ''
+        message: '',
+        metrics: []
     }
 
     // Trying to know if the client user is authed on server-side
@@ -39,6 +40,17 @@ class Account extends Component {
         )
         .then( (res) => {
             this.setState({message: res.data.message})
+            this.getMetrics()
+        })
+    }
+
+    getMetrics = async () => {
+        await axios.get(
+            '/api/getMetrics?email='+this.props.user.email
+        )
+        .then( (res) => {
+            this.state.metrics = res.data.message
+            this.forceUpdate(() => {console.log(this.state.metrics)})
         })
     }
 
@@ -61,6 +73,15 @@ class Account extends Component {
                                     <input type="text" placeholder="value" style={styles.textArea} value={this.state.value} onChange = {(event) => {this.setState({value: event.target.value})}}/>
                                     <button onClick={this.addMetrics} style={styles.submitButton}>Send</button> 
                                     {this.state.message}
+                                    <br />
+                                    <label>Metrics : </label><br />
+                                    <ul>
+                                    {
+                                        this.state.metrics.map( (d, idx) => {
+                                            return (<li key={idx}>{d.time + ": " + d.value}</li>)
+                                          })
+                                    }
+                                    </ul>
                                 </div>
                             </div>
                             : 
