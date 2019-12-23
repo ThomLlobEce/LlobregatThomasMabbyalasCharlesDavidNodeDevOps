@@ -7,7 +7,9 @@ class App extends Component {
 
     state = {
         readyToRender: false,
-        logged: false
+        logged: false,
+        value: 0,
+        timestamp: ""
     }
 
     content = async () => {
@@ -41,7 +43,18 @@ class App extends Component {
                             <div>
                                 <NavBar logged={true} disconnect={this.props.disconnect} />
                                 <h1 style={styles.back_button}>You are logged in. </h1>
-                            </div>
+                                    <div style={styles.formulaire}>
+                                        <button onClick={this.props.toggleSignUp} style={styles.cross}>X</button>
+                                        <label style={styles.legend}><span style={styles.number}>1</span> Identité</label>
+                                        <br/>
+                                        <br/>
+                                        <input type="text" placeholder="timestamp" style={styles.textArea} value={this.state.timestamp} onChange = {(event) => {this.setState({timestamp: event.target.value})}}/>
+                                        <input type="text" placeholder="value" style={styles.textArea} value={this.state.value} onChange = {(event) => {this.setState({value: event.target.value})}}/>
+                                        <button onClick={this.addMetrics} style={styles.submitButton}>Envoyer</button> 
+                                    { /* addMetrics n'est pas encore codé */}
+                                    </div>
+                                </div>
+
                             : 
                             <div>
                                 <NavBar logged={false} />

@@ -3,8 +3,8 @@ const path = require('path');
 const app = express();
 const bodyParser = require('body-parser');
 
-const users = ["vic@hotmail.fr"]
-const auths = ["a"]
+const users = []
+const auths = []
 
 const port = process.env.PORT || 5000;
 
@@ -58,6 +58,8 @@ app.get('/api/signIn', (req,res) => {
         if(users[i].email === req.query.email && users[i].password === req.query.password){
             for(let j = 0; j < auths.length; j++){
                 if(auths[j] = users[i].email){
+                    console.log("auths : "+ auths[j])
+                    console.log("email : "+ email[i])
                     exist = true
                     break
                 }
