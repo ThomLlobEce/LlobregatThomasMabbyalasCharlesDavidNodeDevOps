@@ -14,7 +14,8 @@ class Account extends Component {
         value: 0,
         message: '',
         metrics: [],
-        timestamp: ''
+        timestamp: '',
+        reddit: false
     }
 
     // Trying to know if the client user is authed on server-side
@@ -48,6 +49,7 @@ class Account extends Component {
     }
 
     deleteMetrics = async () => {
+        this.setState({reddit:false})
         await axios.get(
             '/api/deleteMetrics?email='+this.props.user.email+'&timestamp='+this.state.timestamp,
         )
@@ -64,6 +66,7 @@ class Account extends Component {
         .then( (res) => {
             this.state.metrics = res.data.message
             this.forceUpdate(() => {console.log(this.state.metrics)})
+            this.setState({reddit:true})
         })
     }
 
@@ -91,20 +94,26 @@ class Account extends Component {
                                     {this.state.message}
                                     <br />
                                     <label>Metrics : </label><br />
-                                    <ul>
                                     {
-                                        this.state.metrics.map( (d, idx) => {
-                                            return (<li key={idx}>{d.time + ": " + d.value}</li>)
+                                    this.state.reddit ? 
+                                        <div>
+                                        <ul>
+                                        {
+                                           this.state.metrics.map( (d, idx) => {return (
+                                            <li key={idx}>{d.time + ": " + d.value}
+                                            </li>)
                                           })
-                                    }
-                                    </ul>
-                                      
-                                      <LineChart width={600} height={300} data={data}>
-                                        <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-                                        <CartesianGrid stroke="#ccc" />
-                                        <XAxis dataKey="name" />
-                                        <YAxis />
-                                      </LineChart>
+                                        }
+                                        </ul>
+                                          
+                                          <LineChart width={600} height={300} data={data}>
+                                            <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+                                            <CartesianGrid stroke="#ccc" />
+                                            <XAxis dataKey="name" />
+                                            <YAxis />
+                                          </LineChart>
+                                        </div> : null}
+                                        
                                     </div>
                                 </div>
                             </div>
