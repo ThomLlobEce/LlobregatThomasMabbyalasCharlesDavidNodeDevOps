@@ -11,7 +11,8 @@ class Account extends Component {
         logged: false, // Wether there is a logged user
         value: 0,
         message: '',
-        metrics: []
+        metrics: [],
+        timestamp: ''
     }
 
     // Trying to know if the client user is authed on server-side
@@ -46,7 +47,7 @@ class Account extends Component {
 
     deleteMetrics = async () => {
         await axios.get(
-            '/api/addMetrics?email='+this.props.user.email+'&value='+this.state.value+'&timestamp='+(new Date),
+            '/api/deleteMetrics?email='+this.props.user.email+'&timestamp='+this.state.timestamp,
         )
         .then( (res) => {
             this.setState({message: res.data.message})
@@ -82,8 +83,8 @@ class Account extends Component {
                                     <br/>
                                     <input type="text" placeholder="value" style={styles.textArea} value={this.state.value} onChange = {(event) => {this.setState({value: event.target.value})}}/>
                                     <button onClick={this.addMetrics} style={styles.submitButton}>Send</button> 
-                                    <input type="text" placeholder="timestamp" style={styles.textArea} value={this.state.value} onChange = {(event) => {this.setState({value: event.target.value})}}/>
-                                    <button onClick={this.deleteMetrics} style={styles.submitButton}>Delete</button> 
+                                    <input type="text" placeholder="timestamp" style={styles.textArea} value={this.state.timestamp} onChange = {(event) => {this.setState({timestamp: event.target.value})}}/>
+                                    <button onClick={this.deleteMetrics} style={styles.submitButton}>Delete</button>
                                     {this.state.message}
                                     <br />
                                     <label>Metrics : </label><br />
