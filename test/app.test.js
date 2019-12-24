@@ -6,7 +6,6 @@ const { expect } = chai;
 
 chai.use(chaiHttp);
 
-
 describe("API TESTING :", () => {
     it("CREATE USER: ", done => {
         chai

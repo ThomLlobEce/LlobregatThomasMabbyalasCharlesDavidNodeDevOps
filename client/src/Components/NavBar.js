@@ -15,12 +15,12 @@ export default class NavBar extends Component {
                     this.props.logged ? 
                     (
                         <Link to = {"/"}>
-                            <button onClick={() => {this.props.disconnect()}} style={styles.connexion_button}>Déconnexion</button>
+                            <button onClick={() => {this.props.disconnect()}} style={styles.connexion_button}>Sign out</button>
                         </Link>
                     ) :
                     (
                         <Link to ={"/signin"}>
-                           <button style={styles.connexion_button}>Connexion</button>
+                           <button style={styles.connexion_button}>Sign in</button>
                         </Link>
                     )
                 }   

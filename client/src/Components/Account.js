@@ -3,13 +3,18 @@ import NavBar from './NavBar'
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 
-class App extends Component {
+// Dashboard view
+class Account extends Component {
 
     state = {
-        readyToRender: false,
-        logged: false
+        readyToRender: false, // false while fetching API data, true when ready to render
+        logged: false, // Wether there is a logged user
+        value: 0,
+        message: '',
+        metrics: []
     }
 
+    // Trying to know if the client user is authed on server-side
     content = async () => {
         await axios.get(
             '/api/isAuth?email='+this.props.user.email
@@ -29,6 +34,26 @@ class App extends Component {
         })
     }
 
+    addMetrics = async () => {
+        await axios.get(
+            '/api/addMetrics?email='+this.props.user.email+'&value='+this.state.value+'&timestamp='+(new Date),
+        )
+        .then( (res) => {
+            this.setState({message: res.data.message})
+            this.getMetrics()
+        })
+    }
+
+    getMetrics = async () => {
+        await axios.get(
+            '/api/getMetrics?email='+this.props.user.email
+        )
+        .then( (res) => {
+            this.state.metrics = res.data.message
+            this.forceUpdate(() => {console.log(this.state.metrics)})
+        })
+    }
+
     render()
     {
         this.content()
@@ -40,7 +65,24 @@ class App extends Component {
                         this.state.logged ? 
                             <div>
                                 <NavBar logged={true} disconnect={this.props.disconnect} />
-                                <h1 style={styles.back_button}>You are logged in. </h1>
+
+                                <div style={styles.formulaire}>
+                                    <label style={styles.legend}><span style={styles.number}>1</span> Timestamp</label>
+                                    <br/>
+                                    <br/>
+                                    <input type="text" placeholder="value" style={styles.textArea} value={this.state.value} onChange = {(event) => {this.setState({value: event.target.value})}}/>
+                                    <button onClick={this.addMetrics} style={styles.submitButton}>Send</button> 
+                                    {this.state.message}
+                                    <br />
+                                    <label>Metrics : </label><br />
+                                    <ul>
+                                    {
+                                        this.state.metrics.map( (d, idx) => {
+                                            return (<li key={idx}>{d.time + ": " + d.value}</li>)
+                                          })
+                                    }
+                                    </ul>
+                                </div>
                             </div>
                             : 
                             <div>
@@ -49,17 +91,18 @@ class App extends Component {
                                     <h1 style={styles.back_button}>You are not logged in. <Link to = {'/signin'} style={{color: 'blue'}}>Please sign in</Link> or <Link to="/" style={{color: 'blue'}}>create an account</Link></h1>
                                 </div>
                             </div>
-                        : 
-                        null
+                            : 
+                            null
                     }
                 </div>
             </div>)
     }
 }
 
-export default App;
+export default Account;
 
 const styles = {
+
     inscription: {
         width: '100%',
         height: '110vh',
@@ -83,5 +126,70 @@ const styles = {
 	    font: 'bold 13px Arial',
         color: '#fff',
         transform: "translate(-50%, -50%)"   
-    }
+    },
+    formulaire: {
+
+        width: 400,
+        left: '50%',
+        top: '50%',
+        position: 'absolute',
+        zIndex: 2,
+
+    	padding: 20,
+    	backgroundColor: '#f4f7f8',
+    	margin: 10,
+    	borderRadius: 8,
+    	fontFamily: "Georgia",
+        transform: "translate(-50%, -50%)"
+    },
+
+    number:{
+        background: '#1abc9c',
+
+    	color: '#FFF',
+    	height: 30,
+    	width: 30,
+    	display: 'inline-block',
+    	fontSize: 18,
+    	lineHeight: 1.2,
+    	textAlign: 'center',
+    	textShadow: 'rgba(255,255,255,0.2)',
+    	borderRadius: 15,
+    },
+
+    textArea: {
+        fontFamily: "Georgia",
+    	background: "rgba(255,255,255,.1)",
+    	border: "none",
+    	borderRadius: 4,
+    	fontSize: 12,
+    	margin: 0,
+    	outline: 0,
+    	padding: 10,
+    	width: '100%',
+    	boxSizing: 'border-box',
+    	WebkitBoxSizing: 'border-box',
+    	MozBoxSizing: 'border-box',
+    	backgroundColor: '#e8eeef',
+    	color: '#8a97a0',
+    	WebkitBoxShadow: "rgba(0,0,0,0.03)",
+        boxShadow: "rgba(0,0,0,0.03)",
+        marginBottom: 5
+    },
+
+    submitButton: {
+        position: 'relative',
+	    display: 'block',
+	    padding: '19px 39px 18px 39px',
+        color: '#FFF',
+        margin: 'auto',
+        background: '#1abc9c',
+        fontSize: 18,
+        textAlign: 'center',
+        fontStyle: 'normal',
+        width: '100%',
+        border: '1px solid #16a085',
+        borderWidth: '1px 1px 3px',
+        marginBottom: 10
+    },
 }
