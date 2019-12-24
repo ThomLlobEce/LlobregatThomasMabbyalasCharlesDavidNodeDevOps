@@ -44,9 +44,13 @@ class Account extends Component {
         })
     }
 
+
+/// À vérifier 
+
+
     deleteMetrics = async () => {
         await axios.get(
-            '/api/addMetrics?email='+this.props.user.email+'&value='+this.state.value+'&timestamp='+(new Date),
+            '/api/deleteMetrics?email='+this.props.user.email+'&timestamp='+this.state.value /*+'&timestamp=' +(new Date)*/ ,
         )
         .then( (res) => {
             this.setState({message: res.data.message})
@@ -54,6 +58,8 @@ class Account extends Component {
         })
     }
 
+
+    
     getMetrics = async () => {
         await axios.get(
             '/api/getMetrics?email='+this.props.user.email
