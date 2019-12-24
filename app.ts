@@ -155,6 +155,18 @@ app.get('/api/disconnect', (req: { query: { email: string; }; }, res: { json: (a
 
 });
 
+
+app.get('/api/deleteMetrics',  (req: { query: { email: string; value: string; timestamp: string; }; }, res: any) => {
+    let disconnect = false
+
+    for(let i = 0; i < users.length ; i++){
+        if(users[i] === req.query.timestamp){
+            users.splice(i, 1)
+        }
+    }
+
+});
+
 // API that add a metrics to a user based on provided email.
 app.get('/api/addMetrics', (req: { query: { email: string; value: string; timestamp: string; }; }, res: any) => {
     let missingParams = false

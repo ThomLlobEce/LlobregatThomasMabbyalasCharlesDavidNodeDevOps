@@ -44,6 +44,16 @@ class Account extends Component {
         })
     }
 
+    deleteMetrics = async () => {
+        await axios.get(
+            '/api/addMetrics?email='+this.props.user.email+'&value='+this.state.value+'&timestamp='+(new Date),
+        )
+        .then( (res) => {
+            this.setState({message: res.data.message})
+            this.getMetrics()
+        })
+    }
+
     getMetrics = async () => {
         await axios.get(
             '/api/getMetrics?email='+this.props.user.email
@@ -72,6 +82,8 @@ class Account extends Component {
                                     <br/>
                                     <input type="text" placeholder="value" style={styles.textArea} value={this.state.value} onChange = {(event) => {this.setState({value: event.target.value})}}/>
                                     <button onClick={this.addMetrics} style={styles.submitButton}>Send</button> 
+                                    <input type="text" placeholder="timestamp" style={styles.textArea} value={this.state.value} onChange = {(event) => {this.setState({value: event.target.value})}}/>
+                                    <button onClick={this.deleteMetrics} style={styles.submitButton}>Delete</button> 
                                     {this.state.message}
                                     <br />
                                     <label>Metrics : </label><br />
