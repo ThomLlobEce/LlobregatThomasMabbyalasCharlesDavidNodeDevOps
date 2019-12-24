@@ -15,7 +15,8 @@ class Account extends Component {
         message: '',
         metrics: [],
         timestamp: '',
-        reddit: false
+        reddit: false,
+        data: []
     }
 
     // Trying to know if the client user is authed on server-side
@@ -67,7 +68,21 @@ class Account extends Component {
             this.state.metrics = res.data.message
             this.forceUpdate(() => {console.log(this.state.metrics)})
             this.setState({reddit:true})
+            this.getData()
         })
+    }
+
+    getData = () => {
+        let ret = []
+        let temp = []
+        for(let i = 0; i < this.state.metrics.length; i++){
+            temp.push(this.state.metrics[i].time)
+            temp.push(parseInt(this.state.metrics[i].value, 10) + 1)
+            ret.push(temp)
+            temp = []
+        }
+
+        this.setState({data: ret})
     }
 
     render()
@@ -107,9 +122,9 @@ class Account extends Component {
                                         }
                                         </ul>
                                           
-                                         <PieChart data={[["Blueberry", 44], ["Strawberry", 23]]} />
+                                         <PieChart data={this.state.data} />
                                         </div> : null
-                                        }
+                                    }
                                         
                                     </div>
                                 </div>
