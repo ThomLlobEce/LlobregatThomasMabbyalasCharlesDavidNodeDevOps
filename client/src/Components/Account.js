@@ -107,7 +107,7 @@ class Account extends Component {
                                         }
                                         </ul>
                                           
-                                        
+                                         <PieChart data={[["Blueberry", 44], ["Strawberry", 23]]} />
                                         </div> : null
                                         }
                                         
