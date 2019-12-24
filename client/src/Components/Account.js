@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import NavBar from './NavBar'
 import { Link } from 'react-router-dom';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
 import axios from 'axios'
+const data = [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}];
 
 // Dashboard view
 class Account extends Component {
@@ -69,14 +71,15 @@ class Account extends Component {
     {
         this.content()
         return(
+
             <div>
+
                 <div style={styles.inscription}>
                     { 
                         this.state.readyToRender ?
                         this.state.logged ? 
                             <div>
                                 <NavBar logged={true} disconnect={this.props.disconnect} />
-
                                 <div style={styles.formulaire}>
                                     <label style={styles.legend}><span style={styles.number}>1</span> Timestamp</label>
                                     <br/>
@@ -109,12 +112,7 @@ class Account extends Component {
                     }
                 </div>
             </div>
-                        <LineChart width={600} height={300} data={data} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-            <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-            <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-            <XAxis dataKey="name" />
-            <YAxis />
-              </LineChart>)
+            )
     }
 }
 
