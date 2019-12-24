@@ -6,9 +6,9 @@ const bodyParser = require('body-parser')
 // Defining a typical metrics
 class Metrics {
     time: string
-    value: string
+    value: BigInteger
 
-    constructor(time: string, value: string){
+    constructor(time: string, value: BigInteger){
         this.time = time
         this.value = value
     }
@@ -30,7 +30,7 @@ class User {
       this.metrics = []
     }
 
-    addMetrics = (value: string, time: string) => {
+    addMetrics = (value: BigInteger, time: string) => {
         this.metrics.push(new Metrics(time, value))
     }
   }
@@ -155,8 +155,9 @@ app.get('/api/disconnect', (req: { query: { email: string; }; }, res: { json: (a
 
 });
 
+
 // API that add a metrics to a user based on provided email.
-app.get('/api/addMetrics', (req: { query: { email: string; value: string; timestamp: string; }; }, res: any) => {
+app.get('/api/addMetrics', (req: { query: { email: string; value: BigInteger; timestamp: string; }; }, res: any) => {
     let missingParams = false
     let nonAuth = true
 
@@ -198,6 +199,21 @@ app.get('/api/addMetrics', (req: { query: { email: string; value: string; timest
         })
     }
 
+
+});
+
+app.get('/api/deleteMetrics',  (req: { query: { email: string; value: string; timestamp: string; }; }, res: any) => {
+    
+    for(let i = 0; i < users.length ; i++){
+        if(users[i].email === req.query.email){
+            for(let j = 0; j < users[i].metrics.length ; j++){
+                if(users[i].metrics[j].time === req.query.timestamp){
+                    users[i].metrics.splice(j, 1)
+                    console.log(users[i])
+                }
+            }
+        }
+    }
 
 });
 

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import NavBar from './NavBar'
 import { Link } from 'react-router-dom';
+import {PieChart } from 'react-chartkick'
+import 'chart.js'
 import axios from 'axios'
 
 // Dashboard view
@@ -13,7 +15,10 @@ class Account extends Component {
         message: '',
         metrics: [],
         timestampToEdit: '',
-        newValue: ''
+        newValue: '',
+        timestamp: '',
+        reddit: false,
+        data: []
     }
 
     // Trying to know if the client user is authed on server-side
@@ -46,6 +51,17 @@ class Account extends Component {
         })
     }
 
+    deleteMetrics = async () => {
+        this.setState({reddit:false})
+        await axios.get(
+            '/api/deleteMetrics?email='+this.props.user.email+'&timestamp='+this.state.timestamp,
+        )
+        .then( (res) => {
+            this.setState({message: res.data.message})
+            this.getMetrics()
+        })
+    }
+
     getMetrics = async () => {
         await axios.get(
             '/api/getMetrics?email='+this.props.user.email
@@ -53,13 +69,32 @@ class Account extends Component {
         .then( (res) => {
             this.state.metrics = res.data.message
             this.forceUpdate(() => {console.log(this.state.metrics)})
+            this.setState({reddit:true})
+            this.getData()
         })
     }
 
     updateMetrics = async () => {
+        this.setState({reddit:false})
         await axios.get(
             '/api/updateMetrics?email='+this.props.user.email+'&oldTimestamp='+this.state.timestampToEdit+'&newTimestamp='+(new Date)+'&value='+this.state.newValue,
         )
+        .then( (res) => {
+            this.getMetrics()
+        })
+    }
+
+    getData = () => {
+        let ret = []
+        let temp = []
+        for(let i = 0; i < this.state.metrics.length; i++){
+            temp.push(this.state.metrics[i].time)
+            temp.push(parseInt(this.state.metrics[i].value, 10) + 1)
+            ret.push(temp)
+            temp = []
+        }
+
+        this.setState({data: ret})
     }
 
     render()
@@ -67,19 +102,22 @@ class Account extends Component {
         this.content()
         return(
             <div>
+
                 <div style={styles.inscription}>
                     { 
                         this.state.readyToRender ?
                         this.state.logged ? 
                             <div>
+                                <div>
                                 <NavBar logged={true} disconnect={this.props.disconnect} />
-
-                                <div style={styles.formulaire}>
+                                    <div style={styles.formulaire}>
                                     <label style={styles.legend}><span style={styles.number}>1</span> Timestamp</label>
                                     <br/>
                                     <br/>
                                     <input type="text" placeholder="value" style={styles.textArea} value={this.state.value} onChange = {(event) => {this.setState({value: event.target.value})}}/>
                                     <button onClick={this.addMetrics} style={styles.submitButton}>Send</button> 
+                                    <input type="text" placeholder="Tue Dec 24 2019 18:14:53 GMT 0100 (heure normale d’Europe centrale)" style={styles.textArea} value={this.state.timestamp} onChange = {(event) => {this.setState({timestamp: event.target.value})}}/>
+                                    <button onClick={this.deleteMetrics} style={styles.submitButton}>Delete</button>
                                     {this.state.message}
                                     <br />
                                     <input type="text" placeholder="Timestamp to edit" style={styles.textArea} value={this.state.timestampToEdit} onChange = {(event) => {this.setState({timestampToEdit: event.target.value})}}/>
@@ -87,13 +125,24 @@ class Account extends Component {
                                     <button onClick={this.updateMetrics} style={styles.submitButton}>Edit</button> 
                                     
                                     <label>Metrics : </label><br />
-                                    <ul>
                                     {
-                                        this.state.metrics.map( (d, idx) => {
-                                            return (<li key={idx}>{d.time + ": " + d.value}</li>)
+                                    this.state.reddit ? 
+                                        <div>
+                                        <ul>
+                                        {
+                                           this.state.metrics.map( (d, idx) => { console.log(this.state.metrics  )
+                                          return (
+                                            <li key={idx}>{d.time + ": " + d.value}
+                                            </li>)
                                           })
+                                        }
+                                        </ul>
+                                          
+                                         <PieChart data={this.state.data} />
+                                        </div> : null
                                     }
-                                    </ul>
+                                        
+                                    </div>
                                 </div>
                             </div>
                             : 
