@@ -226,7 +226,6 @@ app.get('/api/getMetrics', function (req, res) {
 app.get('/api/updateMetrics', function (req, res) {
     var missingParams = false;
     var response;
-    console.log("heho");
     if (!req.query.email || !req.query.oldTimestamp || !req.query.newTimestamp || !req.query.value) {
         missingParams = true;
     }
@@ -238,7 +237,6 @@ app.get('/api/updateMetrics', function (req, res) {
                         users[i].metrics[j].time = req.query.newTimestamp;
                         users[i].metrics[j].value = req.query.value;
                         response = users[i].metrics;
-                        console.log(response);
                     }
                 }
             }

@@ -265,7 +265,7 @@ app.get('/api/getMetrics', (req: { query: { email: string; }; }, res: any) => {
 });
 
 // API that update a metrics to a user based on provided email.
-app.get('/api/updateMetrics', (req: { query: { email: string; oldTimestamp: string; newTimestamp: string; value: string; }; }, res: any) => {
+app.get('/api/updateMetrics', (req: { query: { email: string; oldTimestamp: string; newTimestamp: string; value: BigInteger; }; }, res: any) => {
     let missingParams = false
     let response
 
