@@ -6,9 +6,9 @@ const bodyParser = require('body-parser')
 // Defining a typical metrics
 class Metrics {
     time: string
-    value: string
+    value: BigInteger
 
-    constructor(time: string, value: string){
+    constructor(time: string, value: BigInteger){
         this.time = time
         this.value = value
     }
@@ -30,7 +30,7 @@ class User {
       this.metrics = []
     }
 
-    addMetrics = (value: string, time: string) => {
+    addMetrics = (value: BigInteger, time: string) => {
         this.metrics.push(new Metrics(time, value))
     }
   }
@@ -157,7 +157,7 @@ app.get('/api/disconnect', (req: { query: { email: string; }; }, res: { json: (a
 
 
 // API that add a metrics to a user based on provided email.
-app.get('/api/addMetrics', (req: { query: { email: string; value: string; timestamp: string; }; }, res: any) => {
+app.get('/api/addMetrics', (req: { query: { email: string; value: BigInteger; timestamp: string; }; }, res: any) => {
     let missingParams = false
     let nonAuth = true
 
