@@ -111,8 +111,7 @@ class Account extends Component {
                             null
                     }
                 </div>
-            </div>
-            )
+            </div>)
     }
 }
 
