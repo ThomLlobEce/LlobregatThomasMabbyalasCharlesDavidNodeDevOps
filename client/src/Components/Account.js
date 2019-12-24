@@ -71,7 +71,6 @@ class Account extends Component {
     {
         this.content()
         return(
-
             <div>
 
                 <div style={styles.inscription}>
@@ -79,8 +78,9 @@ class Account extends Component {
                         this.state.readyToRender ?
                         this.state.logged ? 
                             <div>
+                                <div>
                                 <NavBar logged={true} disconnect={this.props.disconnect} />
-                                <div style={styles.formulaire}>
+                                    <div style={styles.formulaire}>
                                     <label style={styles.legend}><span style={styles.number}>1</span> Timestamp</label>
                                     <br/>
                                     <br/>
@@ -98,6 +98,14 @@ class Account extends Component {
                                           })
                                     }
                                     </ul>
+                                      
+                                      <LineChart width={600} height={300} data={data}>
+                                        <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+                                        <CartesianGrid stroke="#ccc" />
+                                        <XAxis dataKey="name" />
+                                        <YAxis />
+                                      </LineChart>
+                                    </div>
                                 </div>
                             </div>
                             : 
