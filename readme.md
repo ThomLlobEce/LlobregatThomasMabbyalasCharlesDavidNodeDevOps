@@ -83,7 +83,7 @@ In order for your changes to show when using `npm start` in `./` you will need t
 You can contact the following person for any question :
 * Llobregat Thomas : thomas.llobregat@edu.ece.fr
 * Mabbyalas Charles David : charlesdavid.mabbyalas@edu.ece.fr
-* Grégoire victor : victore.grégoir@edu.ece.fr
+* Grégoire victor : victor.gregoire@edu.ece.fr
 
 ## Contributors
 
