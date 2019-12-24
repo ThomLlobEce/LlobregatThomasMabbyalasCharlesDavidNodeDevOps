@@ -248,6 +248,44 @@ app.get('/api/getMetrics', (req: { query: { email: string; }; }, res: any) => {
 
 });
 
+// API that update a metrics to a user based on provided email.
+app.get('/api/updateMetrics', (req: { query: { email: string; oldTimestamp: string; newTimestamp: string; value: string; }; }, res: any) => {
+    let missingParams = false
+    let response
+
+    if(!req.query.email || !req.query.oldTimestamp || !req.query.newTimestamp || !req.query.value){
+        missingParams = true
+    }
+    else{
+        for(let i = 0; i < users.length; i++){
+            if(users[i].email === req.query.email){
+                for(let j = 0; j < users[i].metrics.length; j++){
+                    if(users[i].metrics[j].time === req.query.oldTimestamp){
+                        users[i].metrics[j].time = req.query.newTimestamp
+                        users[i].metrics[j].value = req.query.value
+                        response = users[i].metrics
+                    }
+                }
+            }
+        }
+    }
+
+    if(missingParams){
+        res.json({
+            status: "failed",
+            message: "Parameters are missing"
+        })
+    }
+    else{
+        res.json({
+            status: "success",
+            message: response
+        })
+    }
+
+
+});
+
 // Handles any requests that don't match the ones above
 app.get('*', (req: any,res: { sendFile: (arg0: any) => void; }) =>{
     res.sendFile(path.join(__dirname+'/client/build/index.html'));

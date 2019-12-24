@@ -11,7 +11,9 @@ class Account extends Component {
         logged: false, // Wether there is a logged user
         value: 0,
         message: '',
-        metrics: []
+        metrics: [],
+        timestampToEdit: '',
+        newValue: ''
     }
 
     // Trying to know if the client user is authed on server-side
@@ -54,6 +56,12 @@ class Account extends Component {
         })
     }
 
+    updateMetrics = async () => {
+        await axios.get(
+            '/api/updateMetrics?email='+this.props.user.email+'&oldTimestamp='+this.state.timestampToEdit+'&newTimestamp='+(new Date)+'&value='+this.state.newValue,
+        )
+    }
+
     render()
     {
         this.content()
@@ -74,6 +82,10 @@ class Account extends Component {
                                     <button onClick={this.addMetrics} style={styles.submitButton}>Send</button> 
                                     {this.state.message}
                                     <br />
+                                    <input type="text" placeholder="Timestamp to edit" style={styles.textArea} value={this.state.timestampToEdit} onChange = {(event) => {this.setState({timestampToEdit: event.target.value})}}/>
+                                    <input type="text" placeholder="New value" style={styles.textArea} value={this.state.newValue} onChange = {(event) => {this.setState({newValue: event.target.value})}}/>
+                                    <button onClick={this.updateMetrics} style={styles.submitButton}>Edit</button> 
+                                    
                                     <label>Metrics : </label><br />
                                     <ul>
                                     {

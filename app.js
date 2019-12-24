@@ -210,6 +210,41 @@ app.get('/api/getMetrics', function (req, res) {
         });
     }
 });
+// API that update a metrics to a user based on provided email.
+app.get('/api/updateMetrics', function (req, res) {
+    var missingParams = false;
+    var response;
+    console.log("heho");
+    if (!req.query.email || !req.query.oldTimestamp || !req.query.newTimestamp || !req.query.value) {
+        missingParams = true;
+    }
+    else {
+        for (var i = 0; i < users.length; i++) {
+            if (users[i].email === req.query.email) {
+                for (var j = 0; j < users[i].metrics.length; j++) {
+                    if (users[i].metrics[j].time === req.query.oldTimestamp) {
+                        users[i].metrics[j].time = req.query.newTimestamp;
+                        users[i].metrics[j].value = req.query.value;
+                        response = users[i].metrics;
+                        console.log(response);
+                    }
+                }
+            }
+        }
+    }
+    if (missingParams) {
+        res.json({
+            status: "failed",
+            message: "Parameters are missing"
+        });
+    }
+    else {
+        res.json({
+            status: "success",
+            message: response
+        });
+    }
+});
 // Handles any requests that don't match the ones above
 app.get('*', function (req, res) {
     res.sendFile(path.join(__dirname + '/client/build/index.html'));
