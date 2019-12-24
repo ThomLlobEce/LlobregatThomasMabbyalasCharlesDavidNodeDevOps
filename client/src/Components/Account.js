@@ -131,6 +131,7 @@ const styles = {
         backgroundRepeat: 'no-repeat',
         zIndex: 1
     },
+    
     back_button: {
         position: 'absolute',
         width: 300,
@@ -145,6 +146,7 @@ const styles = {
         color: '#fff',
         transform: "translate(-50%, -50%)"   
     },
+
     formulaire: {
 
         width: 400,

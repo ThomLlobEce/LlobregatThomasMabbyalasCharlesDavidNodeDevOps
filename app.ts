@@ -33,6 +33,10 @@ class User {
     addMetrics = (value: string, time: string) => {
         this.metrics.push(new Metrics(time, value))
     }
+
+    deleteMetrics = (value: string, time:string, idx: number) => {
+        this.metrics.splice(idx, 1)
+    }
   }
 
 
@@ -163,9 +167,9 @@ app.get('/api/deleteMetrics',  (req: { query: { email: string; value: string; ti
         if(users[i].email === req.query.email){
             for ( let j=0; j<users[i].metrics.length; j++)
             {
-                if (users[i].metrics[j].time == req.query.timestamp)
+                if (users[i].metrics[j].value == req.query.value)
                 {
-                    users[i].metrics.splice(j,1);
+                    users[i].deleteMetrics(j);
                 }
             }
 

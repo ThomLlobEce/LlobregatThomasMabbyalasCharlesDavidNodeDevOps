@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var app = express();
 var bodyParser = require('body-parser');
+
+
 // Defining a typical metrics
 var Metrics = /** @class */ (function () {
     function Metrics(time, value) {
@@ -11,6 +13,8 @@ var Metrics = /** @class */ (function () {
     }
     return Metrics;
 }());
+
+
 // Defining a typical user
 var User = /** @class */ (function () {
     function User(name, firstName, email, password) {
@@ -111,6 +115,8 @@ app.get('/api/isAuth', function (req, res) {
         res.json({ status: "failed", message: auth });
     }
 });
+
+
 // API that disconnect a user based on the provided email. So it removes it from auths array.
 app.get('/api/disconnect', function (req, res) {
     var disconnect = false;
@@ -127,6 +133,8 @@ app.get('/api/disconnect', function (req, res) {
         res.json({ status: "failed", message: disconnect });
     }
 });
+
+
 // API that add a metrics to a user based on provided email.
 app.get('/api/addMetrics', function (req, res) {
     var missingParams = false;
@@ -168,6 +176,8 @@ app.get('/api/addMetrics', function (req, res) {
         });
     }
 });
+
+
 // API that add a metrics to a user based on provided email.
 app.get('/api/getMetrics', function (req, res) {
     var missingParams = false;
@@ -210,6 +220,8 @@ app.get('/api/getMetrics', function (req, res) {
         });
     }
 });
+
+
 // Handles any requests that don't match the ones above
 app.get('*', function (req, res) {
     res.sendFile(path.join(__dirname + '/client/build/index.html'));
