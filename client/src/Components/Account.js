@@ -86,7 +86,7 @@ class Account extends Component {
                                     <br/>
                                     <input type="text" placeholder="value" style={styles.textArea} value={this.state.value} onChange = {(event) => {this.setState({value: event.target.value})}}/>
                                     <button onClick={this.addMetrics} style={styles.submitButton}>Send</button> 
-                                    <input type="text" placeholder="timestamp" style={styles.textArea} value={this.state.timestamp} onChange = {(event) => {this.setState({timestamp: event.target.value})}}/>
+                                    <input type="text" placeholder="Tue Dec 24 2019 18:14:53 GMT 0100 (heure normale d’Europe centrale)" style={styles.textArea} value={this.state.timestamp} onChange = {(event) => {this.setState({timestamp: event.target.value})}}/>
                                     <button onClick={this.deleteMetrics} style={styles.submitButton}>Delete</button>
                                     {this.state.message}
                                     <br />
