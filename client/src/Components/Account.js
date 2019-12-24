@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import NavBar from './NavBar'
 import { Link } from 'react-router-dom';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis } from 'recharts';
+import {PieChart } from 'react-chartkick'
+import 'chart.js'
 import axios from 'axios'
-const data = [{name: 'Page A', uv: 400, pv: 2400, amt: 2400}];
 
 // Dashboard view
 class Account extends Component {
@@ -99,20 +99,17 @@ class Account extends Component {
                                         <div>
                                         <ul>
                                         {
-                                           this.state.metrics.map( (d, idx) => {return (
+                                           this.state.metrics.map( (d, idx) => { console.log(this.state.metrics  )
+                                          return (
                                             <li key={idx}>{d.time + ": " + d.value}
                                             </li>)
                                           })
                                         }
                                         </ul>
                                           
-                                          <LineChart width={600} height={300} data={data}>
-                                            <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-                                            <CartesianGrid stroke="#ccc" />
-                                            <XAxis dataKey="name" />
-                                            <YAxis />
-                                          </LineChart>
-                                        </div> : null}
+                                        
+                                        </div> : null
+                                        }
                                         
                                     </div>
                                 </div>
