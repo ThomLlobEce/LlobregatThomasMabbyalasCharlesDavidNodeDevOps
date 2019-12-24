@@ -55,6 +55,21 @@ List of current availables features :
 		- { status: "success", message: disconnect } if email provided matchs an authenticated user and that user has successfuly been disconnected (disconnect is boolean)
 		- { status: "failed", message: disconnect }  if email provided does not match any authenticated user (disconnect is boolean)
 
+-  **/api/addMetrics : Add a metrics to a signed in user**
+	- Method: get
+	- Required params : email, timestamp, value
+	- Return :
+		- { status: "failed", message: "Parameters are missing" } if at least 1 parameter is missing
+		- { status: "failed", message: "Email provided does not correspond to an authed user." } if email provided does not match any signed in user
+		- { status: "success", message: "Timestamp successfully added to user" } Return successful message 
+
+-  **/api/getMetrics : Get all metrics from a signed in user**
+	- Method: get
+	- Required params : email
+	- Return :
+		- { status: "failed", message: "Parameters are missing" } if at least 1 parameter is missing
+		- { status: "failed", message: "Email provided does not correspond to an authed user." } if email provided does not match any signed in user
+		- { status: "success", message: response } Return all the metrics of the user 
 
 ## You want to modify client-side ?
 In order for your changes to show when using `npm start` in `./` you will need to run before the following command in `./` client : `npm run build` and then in `./` use `npm start`.
@@ -68,6 +83,7 @@ In order for your changes to show when using `npm start` in `./` you will need t
 You can contact the following person for any question :
 * Llobregat Thomas : thomas.llobregat@edu.ece.fr
 * Mabbyalas Charles David : charlesdavid.mabbyalas@edu.ece.fr
+* Grégoire victor : victore.grégoir@edu.ece.fr
 
 ## Contributors
 
