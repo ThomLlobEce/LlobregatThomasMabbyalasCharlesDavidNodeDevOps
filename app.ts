@@ -203,12 +203,15 @@ app.get('/api/addMetrics', (req: { query: { email: string; value: string; timest
 });
 
 app.get('/api/deleteMetrics',  (req: { query: { email: string; value: string; timestamp: string; }; }, res: any) => {
-    let disconnect = false
-
+    
     for(let i = 0; i < users.length ; i++){
-        if(users[i] === req.query.timestamp){
-            users.splice(i, 1)
-            console.log(users[i])
+        if(users[i].email === req.query.email){
+            for(let j = 0; j < users[i].metrics.length ; j++){
+                if(users[i].metrics[j].time === req.query.timestamp){
+                    users[i].metrics.splice(j, 1)
+                    console.log(users[i])
+                }
+            }
         }
     }
 

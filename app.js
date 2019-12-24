@@ -168,6 +168,18 @@ app.get('/api/addMetrics', function (req, res) {
         });
     }
 });
+app.get('/api/deleteMetrics', function (req, res) {
+    for (var i = 0; i < users.length; i++) {
+        if (users[i].email === req.query.email) {
+            for (var j = 0; j < users[i].metrics.length; j++) {
+                if (users[i].metrics[j].time === req.query.timestamp) {
+                    users[i].metrics.splice(j, 1);
+                    console.log(users[i]);
+                }
+            }
+        }
+    }
+});
 // API that add a metrics to a user based on provided email.
 app.get('/api/getMetrics', function (req, res) {
     var missingParams = false;
